@@ -1,4 +1,7 @@
-import React , { Component } from 'react'
+import React , { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { createTrip } from '../actions/tripActions'
 
 class TripForm extends Component {
 
@@ -22,15 +25,7 @@ class TripForm extends Component {
       destination: this.state.destination
     };
 
-    fetch('http://localhost:3000/api/v1/trips.json', {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json'
-      },
-      body: JSON.stringify(trip)
-    })
-    .then(res => res.json())
-    .then(data => console.log(data));
+    this.props.createTrip(trip);
   }
 
   render() {
@@ -59,4 +54,8 @@ class TripForm extends Component {
   }
 }
 
-export default TripForm;
+TripForm.propTypes = {
+  createTrip: PropTypes.func.isRequired
+}
+
+export default connect(null, { createTrip })(TripForm);

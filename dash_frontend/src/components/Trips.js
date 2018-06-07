@@ -1,19 +1,22 @@
-import React , { Component } from 'react'
+import React , { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { fetchTrips } from '../actions/tripActions';
 
 class Trips extends Component {
 
-  state = {
-    trips: []
+  componentWillMount() {
+    this.props.fetchTrips();
   }
 
-  componentWillMount() {
-    fetch('http://localhost:3000/api/v1/trips.json')
-    .then(res => res.json())
-    .then(data => this.setState({trips: data}));
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.newTrip) {
+      this.props.trips.unshift(nextProps.newTrip);
+    }
   }
 
   render() {
-    const tripItems = this.state.trips.map(trip => (
+    const tripItems = this.props.trips.map(trip => (
       <div key={trip.id}>
         <h3>{trip.name}</h3>
         <p>{trip.origin} - {trip.destination}</p>
@@ -28,4 +31,15 @@ class Trips extends Component {
   }
 }
 
-export default Trips;
+Trips.propTypes = {
+  fetchPosts: PropTypes.func.isRequired,
+  posts: PropTypes.array.isRequired,
+  newTrip: PropTypes.object
+};
+
+const mapStateToProps = state => ({
+  trips: state.trips.items,
+  newTrip: state.trips.item
+})
+
+export default connect(mapStateToProps, { fetchTrips })(Trips);
