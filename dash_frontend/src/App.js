@@ -1,46 +1,43 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
-import Trips from './components/Trips';
-import TripForm from './components/Tripform';
-import Home from './components/Home';
-import { Provider } from 'react-redux';
-import store from './store'
-import { Route, Link, NavLink, Switch } from 'react-router-dom'
+import { Link, Switch, Route } from 'react-router-dom';
+import { connect } from 'react-redux';
+import Login from './Login';
+import Profile from './Profile';
+import * as actions from './actions';
 
 class App extends Component {
   render() {
     return (
-      <Provider store={store}>
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-          </header>
-          <div>
-            <ul>
-              <li>
-                <NavLink activeClassName="active" to="/login">Login</NavLink>
-              </li>
-              <li>
-                <NavLink activeClassName="active" to="/trips">Trips</NavLink>
-              </li>
-              <li>
-                <NavLink activeClassName="active" to="/newtrip">New Trip</NavLink>
-              </li>
-            </ul>
-        </div>
-        <hr />
-
-          <Switch>
-          <Route path="/login" exact component={ Home } />
-          <Route path="/trips" exact component={ Trips } />
-          <Route path="/newtrip" exact component={ TripForm } />
-          </Switch>
+        <h2>Welcome to the App, you can't do anything unless you login</h2>
+        <ul>
+          <li>
+            {this.props.loggedIn ? (
+              <a
+                onClick={e => {
+                  e.preventDefault();
+                  this.props.logoutUser();
+                }}
+              >
+                Sign Out
+              </a>
+            ) : (
+              <Link to="/login">Go to Login</Link>
+            )}
+          </li>
+          <li>
+            <Link to="/profile">Go to Profile</Link>
+          </li>
+        </ul>
+        <Switch>
+          <Route path="/login" component={Login} />
+          <Route path="/profile" component={Profile} />
+        </Switch>
       </div>
-      </Provider>
     );
   }
 }
-
-export default App;
+const mapStateToProps = state => ({
+  loggedIn: !!state.auth.currentUser.id
+});
+export default connect(mapStateToProps, actions)(App);
