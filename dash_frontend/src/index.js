@@ -6,10 +6,12 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import reduxThunk from 'redux-thunk';
+import tripReducer from './reducers/tripReducer'
 
 import App from './App';
 
 const initialState = { currentUser: {} };
+
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'SET_CURRENT_USER':
@@ -23,7 +25,8 @@ const authReducer = (state = initialState, action) => {
 };
 
 const rootReducer = combineReducers({
-  auth: authReducer
+  auth: authReducer,
+  trips: tripReducer,
 });
 
 const store = createStore(rootReducer, applyMiddleware(reduxThunk));

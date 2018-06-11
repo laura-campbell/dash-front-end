@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Link, Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Login from './Login';
-import Profile from './Profile';
+import Login from './components/Login';
+import Profile from './components/Profile';
 import * as actions from './actions';
 
 class App extends Component {
@@ -38,6 +38,7 @@ class App extends Component {
   }
 }
 const mapStateToProps = state => ({
-  loggedIn: !!state.auth.currentUser.id
+  loggedIn: !!state.auth.currentUser.id,
+  currentUser: state.auth.currentUser
 });
 export default connect(mapStateToProps, actions)(App);
