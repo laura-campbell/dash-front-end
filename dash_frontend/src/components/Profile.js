@@ -3,6 +3,7 @@ import withAuth from '../hocs/withAuth';
 import {connect} from 'react-redux';
 import Trips from '../containers/Trips';
 import { Redirect } from "react-router";
+import Tripform from './Tripform'
 
 
 class Profile extends React.Component {
@@ -14,6 +15,7 @@ render() {
       {this.props.currentUser.id ? (
         <div>
         <Trips />
+        <Tripform />
         </div>
       ): (
         <Redirect to="/login" />

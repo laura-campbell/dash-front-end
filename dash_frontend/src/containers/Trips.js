@@ -2,11 +2,12 @@ import React , { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchTrips } from '../actions/tripActions';
+import Trip from '../components/Trip'
 
 class Trips extends Component {
 
   componentWillMount() {
-    this.props.dispatch(fetchTrips());
+    this.props.dispatch(fetchTrips(this.props.currentUser.id));
   }
 
   // componentWillReceiveProps(nextProps) {
@@ -19,7 +20,9 @@ class Trips extends Component {
     return ((this.props.trips.length === 0) ? null :
           <div>
             <h1>Trips</h1>
-            <div>{this.props.trips.map(trip => trip.trip.name)}</div>
+            {this.props.trips.map(trip =>
+
+              <Trip trip={trip.trip}/>)}
           </div>
         );
 }
@@ -32,6 +35,7 @@ class Trips extends Component {
 
 const mapStateToProps = state => ({
   trips: state.trips.items,
+  trip: state.trips.item,
   currentUser: state.auth.currentUser
 })
 

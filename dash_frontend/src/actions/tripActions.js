@@ -1,6 +1,6 @@
 
-export const fetchTrips = () => dispatch => {
-    fetch('http://localhost:3000/api/v1/trips')
+export const fetchTrips = (id) => dispatch => {
+    fetch(`http://localhost:3000/api/v1/users/${id}/trips`)
     .then(res => res.json())
     .then(trips => dispatch({
       type: 'FETCH_TRIPS',
@@ -9,7 +9,7 @@ export const fetchTrips = () => dispatch => {
   }
 
   export const createTrip = (tripData) => dispatch => {
-    fetch('http://localhost:3000/api/v1/trips', {
+    fetch(`http://localhost:3000/api/v1/users/${tripData.user_id}/trips`, {
       method: 'POST',
       headers: {
         'content-type': 'application/json'
