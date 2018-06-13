@@ -1,5 +1,3 @@
-import { fetchTrips, createTrip } from '../actions/tripActions'
-
 const initialState = {
   items: [],
   item: {}

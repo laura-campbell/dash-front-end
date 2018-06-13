@@ -2,6 +2,7 @@ import React from 'react';
 import withAuth from '../hocs/withAuth';
 import {connect} from 'react-redux';
 import Trips from '../containers/Trips';
+import Trip from './Trip';
 import { Redirect } from "react-router";
 import Tripform from './Tripform'
 
@@ -14,8 +15,8 @@ render() {
       <h1>Welcome {this.props.currentUser.username}</h1>
       {this.props.currentUser.id ? (
         <div>
-        <Trips />
         <Tripform />
+        <Trips />
         </div>
       ): (
         <Redirect to="/login" />

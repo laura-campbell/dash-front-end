@@ -21,4 +21,11 @@ export const fetchTrips = (id) => dispatch => {
       type: 'NEW_TRIP',
       payload: trip
     }));
+  };
+
+  export const selectTrip = (trip) => dispatch => {
+    return {
+      type: 'SELECT_TRIP',
+      payload: trip,
     }
+  }

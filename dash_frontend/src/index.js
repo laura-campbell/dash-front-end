@@ -1,10 +1,8 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import 'semantic-ui-css/semantic.min.css';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
-import { createStore, combineReducers, applyMiddleware } from 'redux';
-import { Provider } from 'react-redux';
+
+import React from "react";
+import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import { createStore } from "redux";
 import reduxThunk from 'redux-thunk';
 import tripReducer from './reducers/tripReducer';
 import activeTripReducer from './reducers/activeTripReducer'
@@ -44,3 +42,46 @@ const Root = ({ store }) => {
 };
 
 ReactDOM.render(<Root store={store} />, document.getElementById('root'));
+import { applyMiddleware } from 'redux';
+
+
+import App from "./App";
+import reducers from "./reducers";
+
+ReactDOM.render(
+  <Provider store={createStore(reducers, applyMiddleware(reduxThunk))}>
+    <App />
+  </Provider>,
+  document.getElementById('root')
+);
+
+
+
+
+
+
+
+// import React from 'react';
+// import ReactDOM from 'react-dom';
+// import './index.css';
+// import 'semantic-ui-css/semantic.min.css';
+// import { BrowserRouter as Router, Route } from 'react-router-dom';
+// import { createStore, combineReducers, applyMiddleware } from 'redux';
+// import { Provider } from 'react-redux';
+// import reduxThunk from 'redux-thunk';
+// import rootReducer from './reducers';
+// import App from './App';
+//
+// const store = createStore(rootReducer, applyMiddleware(reduxThunk));
+//
+// const Root = ({ store }) => {
+//   return (
+//     <Router>
+//       <Provider store={store}>
+//         <Route path="/" component={App} />
+//       </Provider>
+//     </Router>
+//   );
+// };
+//
+// ReactDOM.render(<Root store={store} />, document.getElementById('root'));

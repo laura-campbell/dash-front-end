@@ -1,7 +1,8 @@
 import React , { Component } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createTrip } from '../actions/tripActions';
+import { Redirect } from "react-router";
+import { bindActionCreators } from 'redux'
 
 class TripForm extends Component {
 
@@ -50,13 +51,13 @@ class TripForm extends Component {
   }
 }
 
-TripForm.propTypes = {
-  createTrip: PropTypes.func.isRequired
-}
-
 const mapStateToProps = state => ({
   trip: state.trips.item,
-  currentUser: state.auth.currentUser,
+  currentUser: state.auth.currentUser
 });
 
-export default connect(mapStateToProps, { createTrip })(TripForm);
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators({createTrip: createTrip}, dispatch)
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TripForm);

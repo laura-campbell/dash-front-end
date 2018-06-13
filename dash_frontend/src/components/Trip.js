@@ -1,16 +1,23 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import { Redirect } from "react-router";
-import * as actions from '../actions';
+import { connect } from 'react-redux'
 
 class Trip extends React.Component {
-
   render() {
+    if (!this.props.trip) {
+      return <div>Select a trip to see it's details.</div>
+      }
     return (
       <div>
-        <h1>{this.props.trip.name}</h1>
-        <div>Origin: {this.props.trip.origin}</div>
-        <div>Destination: {this.props.trip.destination}</div>
-      </div>)}}
+        <h1>Trip Details</h1>
+        <div>{this.props.trip.name}</div>
+      </div>
+      );
+    }
+  }
 
-export default connect(null, actions)(Trip);
+const mapStateToProps = state =>
+  ({
+    trip: state.active_trip
+  });
+
+export default connect (mapStateToProps)(Trip);
