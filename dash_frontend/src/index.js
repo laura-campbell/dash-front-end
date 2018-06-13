@@ -6,7 +6,8 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import reduxThunk from 'redux-thunk';
-import tripReducer from './reducers/tripReducer'
+import tripReducer from './reducers/tripReducer';
+import activeTripReducer from './reducers/activeTripReducer'
 
 import App from './App';
 
@@ -27,6 +28,7 @@ const authReducer = (state = initialState, action) => {
 const rootReducer = combineReducers({
   auth: authReducer,
   trips: tripReducer,
+  active_trip: activeTripReducer
 });
 
 const store = createStore(rootReducer, applyMiddleware(reduxThunk));
