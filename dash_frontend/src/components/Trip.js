@@ -6,11 +6,19 @@ import * as actions from '../actions';
 class Trip extends React.Component {
 
   render() {
+    if (!this.props.trip) {
+      return <div>Select a trip to see it's details.</div>
+      }
     return (
       <div>
-        <h1>{this.props.trip.name}</h1>
-        <div>Origin: {this.props.trip.origin}</div>
-        <div>Destination: {this.props.trip.destination}</div>
-      </div>)}}
-
-export default connect(null, actions)(Trip);
+        <h1>Trip Details</h1>
+        <h1>{this.props.trip.trip.name}</h1>
+      </div>
+      );
+    }
+  }
+const mapStateToProps = state =>
+  ({
+    trip: state.active_trip
+  });
+export default connect (mapStateToProps)(Trip);

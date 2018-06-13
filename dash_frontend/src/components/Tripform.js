@@ -2,6 +2,8 @@ import React , { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createTrip } from '../actions/tripActions';
+import { Redirect } from "react-router";
+
 
 class TripForm extends Component {
 

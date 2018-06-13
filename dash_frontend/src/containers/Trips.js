@@ -1,13 +1,16 @@
 import React , { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchTrips } from '../actions/tripActions';
-import Trip from '../components/Trip'
+import { fetchTrips, selectTrip } from '../actions/tripActions';
+import Trip from '../components/Trip';
+import { bindActionCreators } from 'redux'
+
 
 class Trips extends Component {
 
   componentWillMount() {
-    this.props.dispatch(fetchTrips(this.props.currentUser.id));
+    console.log(this.props.currentUser.id);
+    this.props.fetchTrips(this.props.currentUser.id);
   }
 
   // componentWillReceiveProps(nextProps) {
@@ -21,10 +24,17 @@ class Trips extends Component {
           <div>
             <h1>Trips</h1>
             {this.props.trips.map(trip =>
-
-              <Trip trip={trip.trip}/>)}
+              <div onClick={() => this.props.selectTrip(trip)}>
+                <h1>{trip.trip.name}</h1>
+                <div>Origin: {trip.trip.origin}</div>
+                <div>Destination: {trip.trip.destination}</div>
+              </div>)}
           </div>
         );
+
+
+
+
 }
 }
 // Trips.propTypes = {
@@ -39,4 +49,8 @@ const mapStateToProps = state => ({
   currentUser: state.auth.currentUser
 })
 
-export default connect(mapStateToProps)(Trips);
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators({fetchTrips: fetchTrips, selectTrip: selectTrip}, dispatch)
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Trips);

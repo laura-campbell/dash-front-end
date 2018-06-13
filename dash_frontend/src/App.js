@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import Login from './components/Login';
 import Profile from './components/Profile';
 import * as actions from './actions';
+import Trips from './containers/Trips';
+import TripForm from './components/Tripform'
 
 class App extends Component {
   render() {
@@ -32,6 +34,8 @@ class App extends Component {
         <Switch>
           <Route path="/login" component={Login} />
           <Route path="/profile" component={Profile} />
+          <Route path="/trips" component={Trips} />
+          <Route path="/newtrip" component={TripForm} />
         </Switch>
       </div>
     );
