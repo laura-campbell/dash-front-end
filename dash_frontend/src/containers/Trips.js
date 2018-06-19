@@ -1,13 +1,18 @@
 import React , { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchTrips } from '../actions/tripActions';
-import Trip from '../components/Trip'
+import { fetchTrips, selectTrip } from '../actions/tripActions';
+import { fetchUser } from '../actions';
+import Trip from '../components/Trip';
+import { bindActionCreators } from 'redux';
+import { Link } from 'react-router-dom';
+import { Grid } from "semantic-ui-react";
+import withAuth from '../hocs/withAuth';
 
 class Trips extends Component {
 
-  componentWillMount() {
-    this.props.dispatch(fetchTrips(this.props.currentUser.id));
+  componentDidMount() {
+    this.props.fetchTrips(this.props.currentUser.id)
   }
 
   // componentWillReceiveProps(nextProps) {
@@ -17,26 +22,48 @@ class Trips extends Component {
   // }
 
   render() {
-    return ((this.props.trips.length === 0) ? null :
-          <div>
-            <h1>Trips</h1>
-            {this.props.trips.map(trip =>
+    return (!!this.props.trips ?  <div>
+      <div class="ui right floated button" onClick={e => {
+                  e.preventDefault();
+                  this.props.logoutUser();
+                }}><i class="user circle icon"></i>Sign Out</div>
+        <div className="ui menu">
+        <div className="item">
+          <Link to="/trips/new">Make a New Trip</Link>
+        </div>
+        <div className="item">
+        <Link to='/profile' className="btn btn-primary">Back to Profile</Link>
+        </div>
 
-              <Trip trip={trip.trip}/>)}
-          </div>
+        </div>
+                <h1><i class="paper plane outline icon"></i>Trips</h1>
+                {this.props.trips.map(trip =>
+                  <Trip key={trip.trip.id} trip={trip.trip} selectTrip={this.props.selectTrip}/>)}
+
+            </div>  :
+          <div>Loading</div>
         );
 }
 }
+
+// <div onClick={this.handleClick(trip.trip)}>
+//   <Link to='/trip'>{trip.trip.name}</Link>
+//   <div>Origin: {trip.trip.origin}</div>
+//   <div>Destination: {trip.trip.destination}</div>
+// </div>)
 // Trips.propTypes = {
 //   fetchTrips: PropTypes.func.isRequired,
 //   trips: PropTypes.array.isRequired,
-//   newTrip: PropTypes.object
 // };
 
 const mapStateToProps = state => ({
   trips: state.trips.items,
-  trip: state.trips.item,
-  currentUser: state.auth.currentUser
+  currentUser: state.auth.currentUser,
+  active_trip: state.trips.active_trip
 })
 
-export default connect(mapStateToProps)(Trips);
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators({fetchTrips: fetchTrips, fetchUser: fetchUser, selectTrip: selectTrip}, dispatch)
+}
+
+export default withAuth(connect(mapStateToProps, mapDispatchToProps)(Trips));
