@@ -5,14 +5,35 @@ import { createTrip } from '../actions/tripActions';
 import { Redirect } from "react-router";
 import { Field, reduxForm } from 'redux-form';
 import { Link } from 'react-router-dom';
+import DatePicker from 'react-datepicker';
+import moment from 'moment';
+import 'react-datepicker/dist/react-datepicker.css';
 
 
 class TripForm extends Component {
+
+  state={
+    startDate: '',
+    endDate: ''
+  }
+
+  handleStartDateChange = (date) => {
+   this.setState({
+     startDate: date
+   });
+ }
+
+ handleEndDateChange = (date) => {
+  this.setState({
+    endDate: date
+  });
+}
 
   renderField(field) {
     const { meta: { touched, error } } = field;
     const className = `form-group ${touched && error ? 'has-danger' : '' }`;
     return (
+      (field.label === "Trip Name") ?
       <div className={className}>
         <label>{field.label}</label>
         <input
@@ -23,13 +44,25 @@ class TripForm extends Component {
       <div className="text-help">
         {touched ? error : ''}
       </div>
+    </div> :
+    <div className={className}>
+      <label>{field.label}</label>
+      <input
+        className="form-control"
+        type="text"
+        {...field.input}
+      />
+    <div className="text-help">
+      {touched ? error : ''}
+    </div>
     </div>
     );
   }
 
 
   onSubmit = (values) => {
-    const tripValues = {user_id: this.props.currentUser.id, name: values.name, start_date: values.start_date, end_date: values.end_date};
+    console.log(values)
+    const tripValues = {user_id: this.props.currentUser.id, name: values.name, start_date: this.state.startDate.toLocaleString(), end_date: this.state.endDate.toLocaleString()};
     console.log(tripValues);
     console.log(this.props);
     this.props.createTrip(tripValues, this.props.history);
@@ -41,25 +74,41 @@ class TripForm extends Component {
 
     return(
       <div>
+        <div class="ui right floated left labeled button" tabindex="0">
+        <label class="ui basic right pointing label">
+          <i class="user icon"></i> {this.props.currentUser.username}
+        </label>
+        <div class="ui right floated button" onClick={e => {
+            e.preventDefault();
+            this.props.logoutUser();
+          }}>
+            Logout
+            </div>
+          </div>
 
-      <form onSubmit={  handleSubmit(this.onSubmit.bind(this)) } >
+      <div class ="ui teal ribbon label"><h2>New Trip:</h2></div><br></br><br></br>
+      <form class="ui form" onSubmit={  handleSubmit(this.onSubmit.bind(this)) } >
 
         <Field
           label="Trip Name"
           name="name"
           component={this.renderField}
         />
-        <Field
+      <div class="two fields">
+        <DatePicker
           label="Start Date"
           name="start_date"
-          component={this.renderField}
+          selected={this.state.startDate}
+          onChange={this.handleStartDateChange}
         />
-        <Field
+        <DatePicker
           label="End Date"
           name="end_date"
-          component={this.renderField}
+          selected={this.state.endDate}
+          onChange={this.handleEndDateChange}
         />
-      <button type="submit" className="btn btn-primary">Submit</button>
+    </div>
+      <button type="submit" class="ui button">Submit</button>
       <Link to="/profile" className="btn btn-danger">Cancel</Link>
       </form>
       </div>

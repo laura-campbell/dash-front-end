@@ -30,7 +30,12 @@ class Login extends React.Component {
     const { fields } = this.state;
     return (
       <div>
-        {this.state.error ? <h1>Try Again</h1> : null}
+        <h1 class="ui header">
+          <i class="compass outline icon"></i>
+          <div class="content">
+            <img src='dash_simple.png' height='60px'></img>
+          </div>
+        </h1>
         <div className="ui form">
           <form onSubmit={this.handleSubmit}>
             <div className="ui field">

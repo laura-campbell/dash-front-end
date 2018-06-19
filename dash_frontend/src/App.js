@@ -5,32 +5,28 @@ import Login from './components/Login';
 import Profile from './components/Profile';
 import * as actions from './actions';
 import Trips from './containers/Trips';
-import TripForm from './components/Tripform'
+import TripForm from './components/Tripform';
+import './index.css';
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <h2>Welcome to the App, you can't do anything unless you login</h2>
-        <div>
-
-            {this.props.loggedIn ? (
-              <a
-                onClick={e => {
-                  e.preventDefault();
-                  this.props.logoutUser();
-                }}
-              >
-                Sign Out
-              </a>
-            ) : (
-              <Login />
-            )}
-
-
-        </div>
-
+      <div class="App">
+        <div class="ui huge right floated buttons">
+        <button class="ui teal button"><Link to="/login" style={{ color: '#FFF' }}>Login</Link></button>
+        <div class="or"></div>
+        <button class="ui blue button"><Link to='/signup' style={{ color: '#FFF' }}>Signup</Link>
+        </button>
+    </div>
+        <h1 class="ui header">
+          <i class="compass outline icon"></i>
+          <div class="content">
+            <img src='dash_simple.png' height='60px'></img>
+          </div>
+      </h1>
+      <img class="ui fluid image" src='snazzy-image.png'></img>
       </div>
+
     );
   }
 }

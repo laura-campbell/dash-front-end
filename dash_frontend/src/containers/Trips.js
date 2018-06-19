@@ -20,28 +20,35 @@ class Trips extends Component {
   //     this.props.trips.unshift(nextProps.newTrip);
   //   }
   // }
-
+rn
   render() {
     return (!!this.props.trips ?  <div>
+      <div class="ui right floated left labeled button" tabindex="0">
+      <label class="ui basic right pointing label">
+        <i class="user icon"></i> {this.props.currentUser.username}
+      </label>
       <div class="ui right floated button" onClick={e => {
-                  e.preventDefault();
-                  this.props.logoutUser();
-                }}><i class="user circle icon"></i>Sign Out</div>
-        <div className="ui menu">
-        <div className="item">
-          <Link to="/trips/new">Make a New Trip</Link>
+          e.preventDefault();
+          this.props.logoutUser();
+        }}>
+          Logout
+          </div>
         </div>
-        <div className="item">
-        <Link to='/profile' className="btn btn-primary">Back to Profile</Link>
-        </div>
-
-        </div>
-                <h1><i class="paper plane outline icon"></i>Trips</h1>
+          <h1><img src="map-7.png" height='50px'></img>&nbsp;<img src="trips.png" height='50px'></img></h1>
+          <br></br><br></br>
                 {this.props.trips.map(trip =>
                   <Trip key={trip.trip.id} trip={trip.trip} selectTrip={this.props.selectTrip}/>)}
-
-            </div>  :
+                    <br></br><br></br><br></br>
+                    <div className="ui teal button">
+                      <Link to="/trips/new" style={ {color: '#FFF'} }><i class="plus icon"></i>Add a New Trip</Link>
+                    </div>
+                    <div className="ui blue button">
+                    <Link to='/profile' style={ {color: '#FFF'} }><i class="left chevron icon"></i>Back to Profile</Link>
+                    </div>
+                  </div>
+                    :
           <div>Loading</div>
+
         );
 }
 }
