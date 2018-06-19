@@ -1,109 +1,140 @@
 import React , { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { createTrip } from '../actions/tripActions';
+import { Redirect } from "react-router";
+import { Field, reduxForm, formValueSelector } from 'redux-form';
+import { Link } from 'react-router-dom';
+import { createFlight } from '../actions/tripActions';
 
 class FlightForm extends Component {
 
-  state = {
-    user_id: this.props.currentUser.id,
-    name: '',
-    origin: '',
-    destination: '',
-    outboundDepartureCity: '',
-    outboundArrivalCity: '',
-    outboundDepartureDate: '',
-    outboundAirline: '',
-    outboundDepartureTime: '',
-    returnDepartureDate: '',
-    returnDepartureTime: '',
-    flightResults: []
+  renderField(field) {
+    const { meta: { touched, error } } = field;
+    const className = `form-group ${touched && error ? 'has-danger' : '' }`;
+    return (
+      <div className={className}>
+        <label>{field.label}</label>
+        <input
+          className="form-control"
+          type="text"
+          {...field.input}
+        />
+      <div className="text-help">
+        {touched ? error : ''}
+      </div>
+    </div>
+    );
   }
 
-  handleFlightFetch = (event) => {
-    event.preventDefault();
-    const outDepArray = this.state.outboundDepartureDate.split('/');
-    const retDepArray = this.state.returnDepartureDate.split('/');
-    const outDepDate = outDepArray[1] + '/' + outDepArray[0] + '/' + outDepArray[2];
-    const retDepDate = retDepArray[1] + '/' + retDepArray[0] + '/' + retDepArray[2];
-    const minDepTime = (parseInt(this.state.outboundDepartureTime) - 1).toString() + ':00';
-    const maxDepTime = (parseInt(this.state.outboundDepartureTime) + 1).toString() + ':00';
-    const minReturnDepTime = (parseInt(this.state.returnDepartureTime) - 1).toString() + ':00';
-    const maxReturnDepTime = (parseInt(this.state.returnDepartureTime) + 1).toString() + ':00';
-    fetch(`https://api.skypicker.com/flights?flyFrom=${this.state.outboundDepartureCity}&to=${this.state.outboundArrivalCity}&dateFrom=${outDepDate}&dateTo=${outDepDate}&returnFrom=${retDepDate}&returnTo=${retDepDate}&partner=picky&curr=USD&locale=en&dtimefrom=${minDepTime}&dtimeto=${maxDepTime}&returndtimefrom=${minReturnDepTime}&returndtimeto=${maxReturnDepTime}`)
-    .then(res => res.json())
-    .then(json => {
-        this.setState({ flightResults: json.data[0]})
-    })
-    }
+  onSubmit = (values) => {
+    console.log(values);
+    console.log(this.props)
+    const formattedDate = values.departureDate.split('/')[2] + '/' + values.departureDate.split('/')[0] + '/' + values.departureDate.split('/')[1];
+    const api_id = process.env.REACT_APP_FLIGHT_API_ID;
+    const api_key = process.env.REACT_APP_FLIGHT_API_KEY;
+    fetch(`https://api.flightstats.com/flex/schedules/rest/v1/json/flight/${values.airline}/${values.flightNumber}/departing/${formattedDate}?appId=${api_id}&appKey=${api_key}`)
+      .then(res => res.json())
+      .then(json => {
+        this.props.createFlight({trip_id: this.props.trip.trip.id, departure_terminal: json.scheduledFlights[0].departureTerminal, arrival_airport: json.scheduledFlights[0].arrivalAirportFsCode, arrival_time: json.scheduledFlights[0].arrivalTime, airline: json.scheduledFlights[0].carrierFsCode, departure_airport: json.scheduledFlights[0].departureAirportFsCode, departure_time: json.scheduledFlights[0].departureTime, flight_number: json.scheduledFlights[0].flightNumber, stops: json.scheduledFlights[0].stops}, this.props.history)})}
 
-  onChange = (event) => {
-    this.setState({[event.target.name]: event.target.value});
-  }
+  //
+  //   const flightValues = {trip_id: this.state.trip.id, departure_terminal: this.state.FlightResult[0].departureTerminal, arrival_airport: this.state.FlightResult[0].arrivalAirportFsCode, arrival_time: this.state.FlightResult[0].arrivalTime, airline: this.state.FlightResult[0].carrierFsCode, departure_airport: this.state.FlightResult[0].departureAirportFsCode, departure_time: this.state.FlightResult[0].departureTime, flight_number: this.state.FlightResult[0].flightNumber, stops: this.state.FlightResult[0].stops}
+  //   console.log(flightValues);
+  //   console.log(this.props);
+  //   this.props.createFlight(flightValues, this.props.history);
+  //   console.log(this.props)
+  // }
+  //
+  //
+  //
+  // handleFlightFetch() {
+  //   fetch(`https://api.flightstats.com/flex/schedules/rest/v1/json/flight/${this.state.outboundAirline}/${this.state.outboundFlightNumber}/departing/${outDepDate}?appId=fd91127b&appKey=9cbe3a0eb8d980090fe8566265f1cf86`)
+  //     .then(res => res.json())
+  //     .then(json => {
+  //         this.setState({ outboundFlightResult: json.scheduledFlights })})}
+
+      //
+      // handleReturnFlightFetch() {
+      //   const retDepArray = this.state.returnDepartureDate.split('/');
+      //   const retDepDate = retDepArray[2] + '/' + retDepArray[0] + '/' + retDepArray[1];
+      //   fetch(`https://api.flightstats.com/flex/schedules/rest/v1/json/flight/${this.state.returnAirline}/${this.state.returnFlightNumber}/departing/${retDepDate}?appId=fd91127b&appKey=9cbe3a0eb8d980090fe8566265f1cf86`)
+      //   .then(res => res.json())
+      //   .then(json => {
+      //       this.setState({ returnFlightResult: json.scheduledFlights } )})}
+
+
 
   render() {
+    const { handleSubmit } = this.props;
+
     return(
       <div>
-      <h3>Please enter some flight info</h3>
-        <div>
-          <h4>Outbound Flight</h4>
-          <label>
-          Departure City:
-          <input type="text" name="outboundDepartureCity" onChange={this.onChange} />
-          </label>
-          <br></br>
-          <label>
-          Arrival City:
-          <input type="text" name="outboundArrivalCity" onChange={this.onChange} />
-          </label>
-          <br></br>
-          <label>
-          Departure Date:
-          <input type="text" name="outboundDepartureDate" onChange={this.onChange}/>
-          </label>
-          <br></br>
-          <label>
-          Airline:
-            <select name="outboundAirline" onChange={this.onChange}>
-              <option> -- </option>
-              <option>Jet Blue</option>
-              <option>Southwest</option>
-              <option>Delta</option>
-            </select>
-          </label>
-          <br></br>
-          <label>
-          Departure Time:
-          <input type="time" name="outboundDepartureTime" onChange={this.onChange} />
-          </label>
-        </div>
-        <div>
-          <h4>Return Flight</h4>
 
-          <label>
-          Departure Date:
-          <input type="text" name="returnDepartureDate" onChange={this.onChange}/>
-          </label>
-          <br></br>
+      <form onSubmit = {handleSubmit(this.onSubmit.bind(this))}>
 
-          <br></br>
-          <label>
-          Departure Time:
-          <input type="time" name="returnDepartureTime" onChange={this.onChange} />
-          </label>
+        <Field
+          label="Flight Number"
+          name="flightNumber"
+          component={this.renderField}
+        />
+        <Field
+          label="Departure Date"
+          name="departureDate"
+          component={this.renderField}
+        />
+        <Field
+          label="Airline"
+          name="airline"
+          component="select">
+            <option></option>
+              <option value='B6'>Jet Blue</option>
+              <option value='WN'>Southwest</option>
+              <option value='DL'>Delta</option>
+              <option value='AA'>American</option>
+              <option value='AS'>Alaska</option>
+              <option value='UA'>United</option>
+              <option value='VX'>Virgin</option>
+          </Field>
 
-        </div>
-        <input className="button" type="submit" value='Add Flights' />
+      <button type="submit" className="btn btn-primary">Submit</button>
       </form>
-    </div>
+      </div>
+
+    //       <h4>Return Flight</h4>
+    //         <label>
+    //         Flight Number:
+    //         <input type="text" name="returnFlightNumber" onChange={this.onChange} />
+    //         </label>
+    //         <br></br>
+    //         <label>
+    //         Departure Date:
+    //         <input type="text" name="returnDepartureDate" onChange={this.onChange}/>
+    //         </label>
+    //         <br></br>
+    //         <label>
+    //         Airline:
+    //           <select name="returnAirline" onChange={this.onChange}>
+    //             <option> -- </option>
+    //             <option value='B6'>Jet Blue</option>
+    //             <option value='WN'>Southwest</option>
+    //             <option value='DL'>Delta</option>
+    //             <option value='AA'>American</option>
+    //             <option value='AS'>Alaska</option>
+    //             <option value='UA'>United</option>
+    //             <option value='VX'>Virgin</option>
+    //           </select>
+    //         </label>
+    //     <input className="button" type="submit" value='Add Flight' />
+    // </form>
+
+    // </div>
     )
   }
 }
 
-
 const mapStateToProps = state => ({
-  trip: state.trips.item,
-  currentUser: state.auth.currentUser,
+  trip: state.trips.active_trip,
+  currentUser: state.auth.currentUser
 });
 
-export default connect(mapStateToProps)(FlightForm);
+export default reduxForm({form: 'NewFlightForm'})(connect(mapStateToProps, { createFlight })(FlightForm));

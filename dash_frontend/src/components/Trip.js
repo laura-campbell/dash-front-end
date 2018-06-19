@@ -2,23 +2,31 @@ import React from 'react';
 import {connect} from 'react-redux';
 import { Redirect } from "react-router";
 import * as actions from '../actions';
+import { Card, Icon, Image } from "semantic-ui-react";
+import { bindActionCreators } from 'redux';
+import { selectTrip } from '../actions/tripActions';
+import { Link } from 'react-router-dom';
+
 
 class Trip extends React.Component {
 
   render() {
-    if (!this.props.trip) {
-      return <div>Select a trip to see it's details.</div>
-      }
     return (
       <div>
-        <h1>Trip Details</h1>
-        <h1>{this.props.trip.trip.name}</h1>
+      <Card>
+        <Card.Content>
+        <Card.Header>{this.props.trip.name}&nbsp;&nbsp;&nbsp;<Link to={`/trip/${this.props.trip.id}`}><i class="edit icon"></i></Link></Card.Header>
+        <Card.Description>
+        </Card.Description>
+        </Card.Content>
+      </Card>
       </div>
       );
     }
   }
-const mapStateToProps = state =>
-  ({
-    trip: state.active_trip
-  });
-export default connect (mapStateToProps)(Trip);
+
+  export default Trip;
+
+
+
+// connect (mapStateToProps)(Trip);
