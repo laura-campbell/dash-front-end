@@ -1,5 +1,4 @@
 import React , { Component } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createTrip } from '../actions/tripActions';
 import { Redirect } from "react-router";
@@ -33,7 +32,6 @@ class TripForm extends Component {
     const { meta: { touched, error } } = field;
     const className = `form-group ${touched && error ? 'has-danger' : '' }`;
     return (
-      (field.label === "Trip Name") ?
       <div className={className}>
         <label>{field.label}</label>
         <input
@@ -44,17 +42,6 @@ class TripForm extends Component {
       <div className="text-help">
         {touched ? error : ''}
       </div>
-    </div> :
-    <div className={className}>
-      <label>{field.label}</label>
-      <input
-        className="form-control"
-        type="text"
-        {...field.input}
-      />
-    <div className="text-help">
-      {touched ? error : ''}
-    </div>
     </div>
     );
   }
