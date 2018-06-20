@@ -16,18 +16,52 @@ render() {
       <div>
       {this.props.currentUser.id ? (
         <div>
-        <h1>Welcome {this.props.currentUser.username}!<div class="ui right floated button" onClick={e => {
-                    e.preventDefault();
-                    this.props.logoutUser();
-                  }}><i class="user circle icon"></i>Sign Out</div></h1>
-                <div class="ui vertical menu">
-            <div class="link item">
-            <Link to="/trips">See my Trips</Link>
-          </div>
-          <div class="link item">
-            <Link to="/trips/new">Make a New Trip</Link>
-          </div>
-      </div>
+          <div class="ui right floated left labeled button" tabindex="0">
+          <label class="ui basic right pointing label">
+            <i class="user icon"></i> {this.props.currentUser.username}
+          </label>
+          <div class="ui right floated button" onClick={e => {
+              e.preventDefault();
+              this.props.logoutUser();
+            }}>
+              Logout
+              </div>
+            </div>
+                  <h1 class="ui header">
+                    <i class="compass outline icon"></i>
+                    <div class="content">
+                      <img src='dash_simple.png' height='60px'></img>
+                    </div>
+                  </h1>
+                <br></br><br></br><br></br><br></br><br></br>
+                <div class="ui four cards">
+                <a class="ui card" href="/trips">
+                  <div class="image">
+                    <img src="map.png"></img>
+                  </div>
+                    <div class="content">
+                      <div class="center aligned header">see my trips</div>
+                    </div>
+                  </a>
+
+                  <a class="ui card" href="/trips/new">
+                    <div class="image">
+                      <img src="addtrip.png"></img>
+                    </div>
+                      <div class="content">
+                        <div class="center aligned header">add a new trip</div>
+                      </div>
+                    </a>
+
+                    <a class="ui card" href="/calendar">
+                      <div class="image">
+                        <img src="calendar.png"></img>
+                      </div>
+                        <div class="content">
+                          <div class="center aligned header">see my calendar</div>
+                        </div>
+                      </a>
+                    </div>
       </div>
     ) : (
         <Redirect to="/login" />
