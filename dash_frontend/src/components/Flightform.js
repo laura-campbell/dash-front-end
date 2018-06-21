@@ -1,12 +1,24 @@
 import React , { Component } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from "react-router";
 import { Field, reduxForm, formValueSelector } from 'redux-form';
 import { Link } from 'react-router-dom';
 import { createFlight } from '../actions/tripActions';
+import DatePicker from 'react-datepicker';
+import moment from 'moment';
+import 'react-datepicker/dist/react-datepicker.css';
 
 class FlightForm extends Component {
+
+  state={
+    date: ''
+  }
+
+  handleDateChange = (date) => {
+   this.setState({
+     date: date
+   });
+ }
 
   renderField(field) {
     const { meta: { touched, error } } = field;
@@ -28,8 +40,9 @@ class FlightForm extends Component {
 
   onSubmit = (values) => {
     console.log(values);
-    console.log(this.props)
-    const formattedDate = values.departureDate.split('/')[2] + '/' + values.departureDate.split('/')[0] + '/' + values.departureDate.split('/')[1];
+    const stringified = (this.state.date._d.toLocaleDateString({day: '2-digit', month: '2-digit', year: 'numeric'}));
+    const formattedDate = stringified.split('/')[2] + '/' + stringified.split('/')[0] + '/' + stringified.split('/')[1];
+    console.log(formattedDate);
     const api_id = process.env.REACT_APP_FLIGHT_API_ID;
     const api_key = process.env.REACT_APP_FLIGHT_API_KEY;
     fetch(`https://api.flightstats.com/flex/schedules/rest/v1/json/flight/${values.airline}/${values.flightNumber}/departing/${formattedDate}?appId=${api_id}&appKey=${api_key}`)
@@ -69,20 +82,35 @@ class FlightForm extends Component {
 
     return(
       <div>
+        <div class="ui right floated left labeled button" tabindex="0">
+        <label class="ui basic right pointing label">
+          <i class="user icon"></i> {this.props.currentUser.username}
+        </label>
+        <div class="ui right floated button" onClick={e => {
+            e.preventDefault();
+            this.props.logoutUser();
+          }}>
+            Logout
+            </div>
+          </div>
 
-      <form onSubmit = {handleSubmit(this.onSubmit.bind(this))}>
+      <div class ="ui teal ribbon label"><h2>New Flight:</h2></div><br></br><br></br>
+
+      <form class="ui form" onSubmit = {handleSubmit(this.onSubmit.bind(this))}>
 
         <Field
           label="Flight Number"
           name="flightNumber"
           component={this.renderField}
         />
-        <Field
+      <div class="two fields">
+      <label>Departure Date<DatePicker
           label="Departure Date"
           name="departureDate"
-          component={this.renderField}
-        />
-        <Field
+          selected={this.state.date}
+          onChange={this.handleDateChange}
+        /></label>
+      <label>Airline<Field
           label="Airline"
           name="airline"
           component="select">
@@ -94,42 +122,29 @@ class FlightForm extends Component {
               <option value='AS'>Alaska</option>
               <option value='UA'>United</option>
               <option value='VX'>Virgin</option>
-          </Field>
-
-      <button type="submit" className="btn btn-primary">Submit</button>
+          </Field></label>
+        </div>
+      <button type="submit" className="ui button">Submit</button>
+      <Link to="/trip/${this.props.trip.trip.id}" className="btn btn-danger">Cancel</Link>
       </form>
       </div>
-
-    //       <h4>Return Flight</h4>
-    //         <label>
-    //         Flight Number:
-    //         <input type="text" name="returnFlightNumber" onChange={this.onChange} />
-    //         </label>
-    //         <br></br>
-    //         <label>
-    //         Departure Date:
-    //         <input type="text" name="returnDepartureDate" onChange={this.onChange}/>
-    //         </label>
-    //         <br></br>
-    //         <label>
-    //         Airline:
-    //           <select name="returnAirline" onChange={this.onChange}>
-    //             <option> -- </option>
-    //             <option value='B6'>Jet Blue</option>
-    //             <option value='WN'>Southwest</option>
-    //             <option value='DL'>Delta</option>
-    //             <option value='AA'>American</option>
-    //             <option value='AS'>Alaska</option>
-    //             <option value='UA'>United</option>
-    //             <option value='VX'>Virgin</option>
-    //           </select>
-    //         </label>
-    //     <input className="button" type="submit" value='Add Flight' />
-    // </form>
-
-    // </div>
-    )
+    );
   }
+}
+
+
+function validate(values) {
+  const errors = {};
+  if (!values.flightNumber) {
+    errors.flightNumber = "Enter a flight number";
+  }
+  if (!values.departureDate) {
+    errors.departureDate = "Enter a departure date";
+  }
+  if (!values.airline) {
+    errors.airline = "Enter an airline";
+  }
+  return errors;
 }
 
 const mapStateToProps = state => ({
@@ -137,4 +152,7 @@ const mapStateToProps = state => ({
   currentUser: state.auth.currentUser
 });
 
-export default reduxForm({form: 'NewFlightForm'})(connect(mapStateToProps, { createFlight })(FlightForm));
+export default reduxForm({
+  validate,
+  form: 'NewFlightForm'})(
+    connect(mapStateToProps, { createFlight})(FlightForm));

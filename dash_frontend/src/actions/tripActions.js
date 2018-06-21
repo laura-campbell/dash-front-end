@@ -31,10 +31,10 @@ export const fetchFlights = (id) => dispatch => {
       type: 'NEW_TRIP',
       payload: trip
     }))
-    .then(history.push(`/newflight`))
+    .then(trip => history.push(`/trip/${trip.payload.trip.id}`))
     }
 
-    export const createFlight = (flightInfo, history) => dispatch => {
+  export const createFlight = (flightInfo, history) => dispatch => {
       console.log(flightInfo)
       fetch(`http://localhost:3000/api/v1/flights`, {
         method: 'POST',
@@ -61,3 +61,30 @@ export const fetchFlights = (id) => dispatch => {
       payload: data
     }));
   }
+
+  export const deleteTrip = (tripId) => dispatch => {
+    fetch(`http://localhost:3000/api/v1/trips/${tripId}/delete`, {
+      method: 'DELETE'})
+    .then(res => res.json())
+    .then(data => dispatch({
+      type: 'DELETE_TRIP',
+      payload: data
+    }));
+  }
+
+export const createItinerary = (info, history) => dispatch => {
+      console.log(info)
+      fetch(`http://localhost:3000/api/v1/trips/${info.trip_id}/itinerary`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json'
+        },
+        body: JSON.stringify(info)
+      })
+      .then(res => res.json())
+      .then(itinerary => dispatch({
+        type: 'ADD_ITINERARY',
+        payload: itinerary
+      })).then(trip => history.push(`/trips`))
+      }

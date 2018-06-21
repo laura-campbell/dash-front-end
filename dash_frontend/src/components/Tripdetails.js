@@ -4,7 +4,10 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Flightform from './Flightform';
 import { Link } from 'react-router-dom';
-import FlightDetails from './Flightdetails'
+import FlightDetails from './Flightdetails';
+import moment from 'moment';
+import Itinerary from './Itinerary';
+
 
 class TripDetails extends React.Component {
 
@@ -31,7 +34,16 @@ class TripDetails extends React.Component {
               <i class="paperclip icon"></i>
               Itinerary
             </h4>
-                  <div class="content"> {this.props.active_trip.trip.start_date} to {this.props.active_trip.trip.end_date} </div>
+                  <div class="content"> Dates: {new Date(this.props.active_trip.trip.start_date).toDateString()} <i class="caret right icon"></i>{new Date(this.props.active_trip.trip.end_date).toDateString()}
+                  <br></br>
+                  Length of Trip: {moment(this.props.active_trip.trip.end_date).diff(moment(this.props.active_trip.trip.start_date), 'days')} days
+                  </div>
+
+                  {this.props.active_itinerary.itinerary ?
+                  console.log(this.props.active_itinerary)
+                  : <Itinerary length={moment(this.props.active_trip.trip.end_date).diff(moment(this.props.active_trip.trip.start_date), 'days')} />
+                  }
+
 
             <h4 class="ui horizontal divider header">
               <i class="list icon"></i>
@@ -65,7 +77,8 @@ const mapStateToProps = state => ({
   active_trip: state.trips.active_trip,
   currentUser: state.auth.currentUser,
   flight: state.flights.item,
-  flights: state.flights.items
+  flights: state.flights.items,
+  active_itinerary: state.trips.active_itinerary
 })
 
 const mapDispatchToProps = dispatch => {

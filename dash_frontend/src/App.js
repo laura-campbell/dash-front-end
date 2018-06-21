@@ -11,21 +11,25 @@ import './index.css';
 class App extends Component {
   render() {
     return (
-      <div class="App">
-        <div class="ui huge right floated buttons">
-        <button class="ui teal button"><Link to="/login" style={{ color: '#FFF' }}>Login</Link></button>
-        <div class="or"></div>
-        <button class="ui blue button"><Link to='/signup' style={{ color: '#FFF' }}>Signup</Link>
-        </button>
-    </div>
+        <div>
         <h1 class="ui header">
           <i class="compass outline icon"></i>
           <div class="content">
             <img src='dash_simple.png' height='60px'></img>
-          </div>
-      </h1>
-      <img class="ui fluid image" src='snazzy-image.png'></img>
-      </div>
+            </div>
+        </h1>
+      <div className="background" id="Homepage">
+      <br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br>
+    <div id="centered">
+      <div class="ui massive buttons">
+      <button class="ui teal button"><Link to="/login" style={{ color: '#FFF' }}>Login</Link></button>
+      <div class="or"></div>
+      <button class="ui blue button"><Link to='/signup' style={{ color: '#FFF' }}>Signup</Link>
+      </button>
+    </div>
+    </div>
+  </div>
+  </div>
 
     );
   }

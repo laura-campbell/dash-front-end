@@ -6,6 +6,7 @@ import { Card, Icon, Image } from "semantic-ui-react";
 import { bindActionCreators } from 'redux';
 import { selectTrip } from '../actions/tripActions';
 import { Link } from 'react-router-dom';
+import { deleteTrip } from '../actions/tripActions';
 
 
 class Trip extends React.Component {
@@ -15,7 +16,7 @@ class Trip extends React.Component {
       <div>
       <Card>
         <Card.Content>
-        <Card.Header>{this.props.trip.name}&nbsp;&nbsp;&nbsp;&nbsp;<Link to={`/trip/${this.props.trip.id}/delete`}><i class="right floated trash icon" style={ {color: '#808080'} }></i></Link>&nbsp;&nbsp;<Link to={`/trip/${this.props.trip.id}`}><i class="right floated edit icon" style={ {color: '#808080'} }></i></Link></Card.Header>
+        <Card.Header>{this.props.trip.name}&nbsp;&nbsp;&nbsp;&nbsp;<div onClick={() => {this.props.deleteTrip(this.props.trip.id)}}><i class="right floated trash icon" style={ {color: '#808080'} }></i></div>&nbsp;&nbsp;<Link to={`/trip/${this.props.trip.id}`}><i class="right floated edit icon" style={ {color: '#808080'} }></i></Link></Card.Header>
         <Card.Description>
         </Card.Description>
         </Card.Content>
@@ -25,8 +26,8 @@ class Trip extends React.Component {
     }
   }
 
-  export default Trip;
+  const mapDispatchToProps = dispatch => {
+    return bindActionCreators({deleteTrip: deleteTrip}, dispatch)
+  }
 
-
-
-// connect (mapStateToProps)(Trip);
+  export default connect(null, mapDispatchToProps)(Trip);
