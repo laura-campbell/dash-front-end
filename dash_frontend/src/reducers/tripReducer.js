@@ -2,7 +2,8 @@
 const initialState = {
   items: [],
   active_trip: {},
-  active_itinerary: {}
+  days: [],
+  day: {}
 }
 
 const tripReducer = (state = initialState, action) => {
@@ -27,10 +28,15 @@ const tripReducer = (state = initialState, action) => {
         ...state,
         items: state.items.filter(item => item.trip.id !== action.payload.trip.id)
     }
-    case 'ADD_ITINERARY':
+    case 'ADD_DAY':
       return {
         ...state,
-        active_itinerary: action.payload
+        day: action.payload
+      }
+    case 'FETCH_DAYS':
+      return {
+        ...state,
+        days: action.payload
       }
     default:
       return state;

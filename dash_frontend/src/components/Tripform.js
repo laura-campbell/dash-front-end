@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import 'react-datepicker/dist/react-datepicker.css';
+import withAuth from '../hocs/withAuth';
 
 
 class TripForm extends Component {
@@ -48,7 +49,6 @@ class TripForm extends Component {
 
 
   onSubmit = (values) => {
-    console.log(values)
     const tripValues = {user_id: this.props.currentUser.id, name: values.name, start_date: this.state.startDate.toLocaleString(), end_date: this.state.endDate.toLocaleString()};
     console.log(tripValues);
     console.log(this.props);
@@ -57,6 +57,7 @@ class TripForm extends Component {
   }
 
   render() {
+    console.log(this.props)
     const { handleSubmit } = this.props;
 
     return(
@@ -96,7 +97,7 @@ class TripForm extends Component {
         />
     </div>
       <button type="submit" class="ui button">Submit</button>
-      <Link to="/profile" className="btn btn-danger">Cancel</Link>
+      <Link to="/trips" className="btn btn-danger">Cancel</Link>
       </form>
       </div>
     );
@@ -145,9 +146,11 @@ const mapStateToProps = state => ({
   currentUser: state.auth.currentUser,
   trip: state.trips.active_trip});
 
-export default reduxForm({
+  // export default withAuth(connect(mapStateToProps)(Profile));
+
+export default withAuth(reduxForm({
   validate,
   form: 'NewTripForm'
 })(
-  connect(mapStateToProps, { createTrip })(TripForm)
+  connect(mapStateToProps, { createTrip })(TripForm))
 );

@@ -13,6 +13,7 @@ class FlightDetails extends React.Component {
   }
 
   render() {
+    console.log(this.props.active_trip)
     return (
       (!this.props.active_trip.trip) ? null :
       (<div class="ui cards">

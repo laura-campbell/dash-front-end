@@ -30,30 +30,28 @@ class TripDetails extends React.Component {
             {this.props.active_trip.trip.name}
           </h1>
 
-            <h4 class="ui horizontal divider header">
+            <h3 class="ui horizontal divider header">
               <i class="paperclip icon"></i>
               Itinerary
-            </h4>
-                  <div class="content"> Dates: {new Date(this.props.active_trip.trip.start_date).toDateString()} <i class="caret right icon"></i>{new Date(this.props.active_trip.trip.end_date).toDateString()}
-                  <br></br>
-                  Length of Trip: {moment(this.props.active_trip.trip.end_date).diff(moment(this.props.active_trip.trip.start_date), 'days')} days
+            </h3>
+                  <div class="ui vertical segments">
+                    <div class="ui teal segment">
+                      <h4 class="ui header">Dates:&nbsp;&nbsp;&nbsp;&nbsp; {new Date(this.props.active_trip.trip.start_date).toDateString()}  <i class="caret right icon"></i>{new Date(this.props.active_trip.trip.end_date).toDateString()}</h4>
                   </div>
+                <div class="ui teal segment"><h4 class="ui header">Length of Trip:&nbsp;&nbsp;&nbsp;&nbsp; {moment(this.props.active_trip.trip.end_date).diff(moment(this.props.active_trip.trip.start_date), 'days')} days
+                </h4></div></div>
 
                   {this.props.active_itinerary.itinerary ?
                   console.log(this.props.active_itinerary)
-                  : <Itinerary length={moment(this.props.active_trip.trip.end_date).diff(moment(this.props.active_trip.trip.start_date), 'days')} />
+                  : <div class="ui blue segment"><Itinerary length={moment(this.props.active_trip.trip.end_date).diff(moment(this.props.active_trip.trip.start_date), 'days')} /></div>
                   }
 
 
-            <h4 class="ui horizontal divider header">
-              <i class="list icon"></i>
-              Packing List
-            </h4>
 
-            <h4 class="ui horizontal divider header">
+            <h3 class="ui horizontal divider header">
               <i class="plane icon"></i>
               Flight Information
-            </h4>
+            </h3>
         <FlightDetails />
         <br></br>
           <button class="ui labeled icon button">
@@ -78,7 +76,7 @@ const mapStateToProps = state => ({
   currentUser: state.auth.currentUser,
   flight: state.flights.item,
   flights: state.flights.items,
-  active_itinerary: state.trips.active_itinerary
+  active_itinerary: state.trips.day
 })
 
 const mapDispatchToProps = dispatch => {

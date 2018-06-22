@@ -34,6 +34,22 @@ export const fetchFlights = (id) => dispatch => {
     .then(trip => history.push(`/trip/${trip.payload.trip.id}`))
     }
 
+    export const editTrip = (tripData, history) => dispatch => {
+      fetch(`http://localhost:3000/api/v1/users/${tripData.user_id}/trips`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(tripData)
+      })
+      .then(res => res.json())
+      .then(trip => dispatch({
+        type: 'UPDATE_TRIP',
+        payload: trip
+      }))
+      .then(trip => history.push(`/trip/${trip.payload.trip.id}`))
+      }
+
   export const createFlight = (flightInfo, history) => dispatch => {
       console.log(flightInfo)
       fetch(`http://localhost:3000/api/v1/flights`, {
@@ -72,9 +88,8 @@ export const fetchFlights = (id) => dispatch => {
     }));
   }
 
-export const createItinerary = (info, history) => dispatch => {
-      console.log(info)
-      fetch(`http://localhost:3000/api/v1/trips/${info.trip_id}/itinerary`, {
+export const createDay = (info, history) => dispatch => {
+      fetch(`http://localhost:3000/api/v1/trips/${info.trip_id}/days`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -83,8 +98,18 @@ export const createItinerary = (info, history) => dispatch => {
         body: JSON.stringify(info)
       })
       .then(res => res.json())
-      .then(itinerary => dispatch({
-        type: 'ADD_ITINERARY',
-        payload: itinerary
-      })).then(trip => history.push(`/trips`))
+      .then(day => dispatch({
+        type: 'ADD_DAY',
+        payload: day
+      })).then(day => history.push(`/trip/${day.payload.day.trip_id}`))
       }
+
+export const fetchDays = (id) => dispatch => {
+    console.log(id);
+    fetch(`http://localhost:3000/api/v1/trips/${id}/days`)
+    .then(res => res.json())
+    .then(days => dispatch({
+      type: 'FETCH_DAYS',
+      payload: days
+    }));
+  }

@@ -29,8 +29,8 @@ const Root = ({ store }) => {
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Signup} />
           <Route path="/profile" component={Profile} />
-          <Route path="/trips/new" component={TripForm} />
-            <Route path="/newflight" component={FlightForm} />
+          <Route path="/trips/new" component={TripForm}/>
+          <Route path="/newflight" component={FlightForm} />
           <Route path="/calendar" component={TripCalendar} />
           <Route path="/trips" component={Trips} />
           <Route path="/trip/:tripId" component={TripDetails} />

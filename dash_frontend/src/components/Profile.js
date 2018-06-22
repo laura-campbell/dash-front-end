@@ -12,6 +12,7 @@ import { Grid } from "semantic-ui-react";
 class Profile extends React.Component {
 
 render() {
+  console.log(this.props.currentUser)
   return (
       <div>
       {this.props.currentUser.id ? (
@@ -34,7 +35,7 @@ render() {
                     </div>
                   </h1>
                 <br></br><br></br><br></br><br></br><br></br>
-                <div class="ui four cards">
+                <div class="ui three cards">
                 <a class="ui card" href="/trips">
                   <div class="image">
                     <img src="map.png"></img>

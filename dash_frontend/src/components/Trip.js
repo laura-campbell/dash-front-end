@@ -16,7 +16,7 @@ class Trip extends React.Component {
       <div>
       <Card>
         <Card.Content>
-        <Card.Header>{this.props.trip.name}&nbsp;&nbsp;&nbsp;&nbsp;<div onClick={() => {this.props.deleteTrip(this.props.trip.id)}}><i class="right floated trash icon" style={ {color: '#808080'} }></i></div>&nbsp;&nbsp;<Link to={`/trip/${this.props.trip.id}`}><i class="right floated edit icon" style={ {color: '#808080'} }></i></Link></Card.Header>
+        <Card.Header>{this.props.trip.name}&nbsp;&nbsp;&nbsp;&nbsp;<div onClick={() => {this.props.deleteTrip(this.props.trip.id)}}><i class="right floated trash alternate icon" style={ {color: '#808080'} }></i></div>&nbsp;&nbsp;<Link to={`/trip/${this.props.trip.id}`}><i class="right floated edit icon" style={ {color: '#808080'} }></i></Link></Card.Header>
         <Card.Description>
         </Card.Description>
         </Card.Content>
