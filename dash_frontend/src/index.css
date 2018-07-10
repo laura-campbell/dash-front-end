@@ -16,8 +16,9 @@ ul {
 }
 
 ul li {
-    background: #cce5ff;
     margin: 5px;
+    padding: 5px;
+    background-color: white;
 }
 
 .text-help {

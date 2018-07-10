@@ -51,15 +51,15 @@ class Signup extends Component {
 
     return(
       <div>
-        <h1 class="ui header">
-          <i class="compass outline icon"></i>
-          <div class="content">
-            <img src='dash_simple.png' height='60px'></img>
+        <h1 className="ui header">
+          <i className="compass outline icon"></i>
+          <div className="content">
+            <img src='dash_simple.png' alt="" height='60px'></img>
           </div>
         </h1><br></br>
-      <div class="ui teal ribbon label"><h2>Sign Up:</h2></div><br></br><br></br>
-      <form class="ui form" onSubmit={  handleSubmit(this.onSubmit.bind(this)) } >
-        <div class="two fields">
+      <div className="ui teal ribbon label"><h2>Sign Up:</h2></div><br></br><br></br>
+      <form className="ui form" onSubmit={  handleSubmit(this.onSubmit.bind(this)) } >
+        <div className="two fields">
         <Field
           label="First Name"
           name="first_name"
@@ -71,7 +71,7 @@ class Signup extends Component {
           component={this.renderField}
         />
       </div>
-      <div class="two fields">
+      <div className="two fields">
         <Field
           label="Username"
           name="username"
@@ -83,7 +83,7 @@ class Signup extends Component {
           component={this.renderField}
         />
       </div>
-      <div class="two fields">
+      <div className="two fields">
         <Field
           label="Password"
           name="password"
@@ -91,7 +91,7 @@ class Signup extends Component {
           component={this.renderField}
         />
       </div>
-      <button type="submit" class="ui button">Submit</button>
+      <button type="submit" className="ui button">Submit</button>
       <Link to="/profile" className="btn btn-danger">Cancel</Link>
       </form>
       </div>
