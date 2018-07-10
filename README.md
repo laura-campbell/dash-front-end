@@ -5,7 +5,7 @@ A travel dashboard to organize your entire itinerary in one easily-accessible, p
 This is a student project, created in my final module for Flatiron School's immersive web development program.
  
 ## Screenshots
-<img src="dash.png"></img>
+![](dash_frontend/public/dash.png)
 
 ## Tech/framework used
 
@@ -14,9 +14,9 @@ This is a student project, created in my final module for Flatiron School's imme
 - [Redux](https://redux.js.org/)
 
 ## Installation
-```yarn install```
+```$ yarn install```
 
-```yarn start```
+```$ yarn start```
 
 ## API Reference
 
