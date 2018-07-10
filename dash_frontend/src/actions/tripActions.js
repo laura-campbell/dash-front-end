@@ -18,6 +18,32 @@ export const fetchFlights = (id) => dispatch => {
   }));
 }
 
+export const fetchPackingList = (id) => dispatch => {
+  fetch(`http://localhost:3000/api/v1/trips/${id}/packinglist`)
+  .then(res => res.json())
+  .then(packinglist => dispatch({
+    type: 'FETCH_PACKING_LIST',
+    payload: packinglist
+  }));
+}
+
+export const createListItem = (itemData, history) => dispatch => {
+  fetch(`http://localhost:3000/api/v1/trips/${itemData.trip_id}/packinglist`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json'
+    },
+    body: JSON.stringify(itemData)
+  })
+  .then(res => res.json())
+  .then(item => dispatch({
+    type: 'NEW_PACKING_LIST',
+    payload: item
+  }))
+  .then(item => history.push(`/trip/${item.payload.item.trip_id}`))
+  }
+
   export const createTrip = (tripData, history) => dispatch => {
     fetch(`http://localhost:3000/api/v1/users/${tripData.user_id}/trips`, {
       method: 'POST',
@@ -88,7 +114,7 @@ export const fetchFlights = (id) => dispatch => {
     }));
   }
 
-export const createDay = (info, history) => dispatch => {
+export const createDay = (info) => dispatch => {
       fetch(`http://localhost:3000/api/v1/trips/${info.trip_id}/days`, {
         method: 'POST',
         headers: {
@@ -101,7 +127,7 @@ export const createDay = (info, history) => dispatch => {
       .then(day => dispatch({
         type: 'ADD_DAY',
         payload: day
-      })).then(day => history.push(`/trip/${day.payload.day.trip_id}`))
+      })).then(day => console.log(day))
       }
 
 export const fetchDays = (id) => dispatch => {
@@ -113,3 +139,29 @@ export const fetchDays = (id) => dispatch => {
       payload: days
     }));
   }
+
+  export const createEvent = (info, history) => dispatch => {
+        fetch(`http://localhost:3000/api/v1/days/${info.day_id}/events`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json'
+          },
+          body: JSON.stringify(info)
+        })
+        .then(res => res.json())
+        .then(event => dispatch({
+          type: 'ADD_EVENT',
+          payload: event
+        }))
+        }
+
+  export const fetchEvents = (id) => dispatch => {
+      console.log(id);
+      fetch(`http://localhost:3000/api/v1/days/${id}/events`)
+      .then(res => res.json())
+      .then(events => dispatch({
+        type: 'FETCH_EVENTS',
+        payload: events
+      }));
+    }

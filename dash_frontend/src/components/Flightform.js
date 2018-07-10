@@ -1,11 +1,9 @@
 import React , { Component } from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from "react-router";
-import { Field, reduxForm, formValueSelector } from 'redux-form';
+import { Field, reduxForm } from 'redux-form';
 import { Link } from 'react-router-dom';
 import { createFlight } from '../actions/tripActions';
 import DatePicker from 'react-datepicker';
-import moment from 'moment';
 import 'react-datepicker/dist/react-datepicker.css';
 
 class FlightForm extends Component {
@@ -82,11 +80,11 @@ class FlightForm extends Component {
 
     return(
       <div>
-        <div class="ui right floated left labeled button" tabindex="0">
-        <label class="ui basic right pointing label">
-          <i class="user icon"></i> {this.props.currentUser.username}
+        <div className="ui right floated left labeled button" tabindex="0">
+        <label className="ui basic right pointing label">
+          <i className="user icon"></i> {this.props.currentUser.username}
         </label>
-        <div class="ui right floated button" onClick={e => {
+        <div className="ui right floated button" onClick={e => {
             e.preventDefault();
             this.props.logoutUser();
           }}>
@@ -96,14 +94,14 @@ class FlightForm extends Component {
 
       <div class ="ui teal ribbon label"><h2>New Flight:</h2></div><br></br><br></br>
 
-      <form class="ui form" onSubmit = {handleSubmit(this.onSubmit.bind(this))}>
+      <form className="ui form" onSubmit = {handleSubmit(this.onSubmit.bind(this))}>
 
         <Field
           label="Flight Number"
           name="flightNumber"
           component={this.renderField}
         />
-      <div class="two fields">
+      <div className="two fields">
       <label>Departure Date<DatePicker
           label="Departure Date"
           name="departureDate"
@@ -125,7 +123,7 @@ class FlightForm extends Component {
           </Field></label>
         </div>
       <button type="submit" className="ui button">Submit</button>
-      <Link to="/trip/${this.props.trip.trip.id}" className="btn btn-danger">Cancel</Link>
+      <Link to="/trip/{this.props.trip.trip.id}" className="btn btn-danger">Cancel</Link>
       </form>
       </div>
     );

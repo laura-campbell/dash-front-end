@@ -1,10 +1,10 @@
 import React from 'react';
-import { fetchFlights, selectTrip } from '../actions/tripActions';
+import { fetchFlights, selectTrip, fetchDays } from '../actions/tripActions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import Flightform from './Flightform';
 import { Link } from 'react-router-dom';
 import FlightDetails from './Flightdetails';
+import PackingList from './PackingList';
 import moment from 'moment';
 import Itinerary from './Itinerary';
 
@@ -12,55 +12,62 @@ import Itinerary from './Itinerary';
 class TripDetails extends React.Component {
 
   componentDidMount() {
+    console.log(this.props.match.params.tripId);
     this.props.selectTrip(this.props.match.params.tripId);
-    this.props.fetchFlights(this.props.match.params.tripId)
   }
 
   render() {
+    console.log(this.props);
     return (
       (!this.props.active_trip.trip) ? null :
       (<div>
-        <button class="ui right floated button">
-          <i class="left arrow icon"></i>
-          <Link to='/profile'>Back to Profile</Link>
+
+        <button className="ui right floated button">
+          <i className="left arrow icon"></i>
+          <Link to='/trips'>Back to Trips</Link>
         </button>
 
-        <h1 class="ui header">
-          <i class="bookmark outline icon"></i>
+        <h1 className="ui header">
+          <i className="bookmark outline icon"></i>
             {this.props.active_trip.trip.name}
           </h1>
 
-            <h3 class="ui horizontal divider header">
-              <i class="paperclip icon"></i>
+            <h3 className="ui horizontal divider header">
+              <i className="paperclip icon"></i>
               Itinerary
             </h3>
-                  <div class="ui vertical segments">
-                    <div class="ui teal segment">
-                      <h4 class="ui header">Dates:&nbsp;&nbsp;&nbsp;&nbsp; {new Date(this.props.active_trip.trip.start_date).toDateString()}  <i class="caret right icon"></i>{new Date(this.props.active_trip.trip.end_date).toDateString()}</h4>
+                  <div className="ui vertical segments">
+                    <div className="ui teal segment">
+                      <h4 className="ui header">Dates:&nbsp;&nbsp;&nbsp;&nbsp; {new Date(this.props.active_trip.trip.start_date).toDateString()}  <i className="caret right icon"></i>{new Date(this.props.active_trip.trip.end_date).toDateString()}</h4>
                   </div>
-                <div class="ui teal segment"><h4 class="ui header">Length of Trip:&nbsp;&nbsp;&nbsp;&nbsp; {moment(this.props.active_trip.trip.end_date).diff(moment(this.props.active_trip.trip.start_date), 'days')} days
+                <div className="ui teal segment"><h4 className="ui header">Length of Trip:&nbsp;&nbsp;&nbsp;&nbsp; {moment(Date.parse(this.props.active_trip.trip.end_date)).diff(moment(Date.parse(this.props.active_trip.trip.start_date)), 'days')} days
                 </h4></div></div>
 
-                  {this.props.active_itinerary.itinerary ?
-                  console.log(this.props.active_itinerary)
-                  : <div class="ui blue segment"><Itinerary length={moment(this.props.active_trip.trip.end_date).diff(moment(this.props.active_trip.trip.start_date), 'days')} /></div>
-                  }
+              <div className="ui blue segment"><Itinerary id={this.props.match.params.tripId} length={moment(Date.parse(this.props.active_trip.trip.end_date)).diff(moment(Date.parse(this.props.active_trip.trip.start_date)), 'days')} /></div>
 
-
-
-            <h3 class="ui horizontal divider header">
-              <i class="plane icon"></i>
+            <h3 className="ui horizontal divider header">
+              <i className="plane icon"></i>
               Flight Information
             </h3>
-        <FlightDetails />
+        <FlightDetails id={this.props.match.params.tripId}/>
         <br></br>
-          <button class="ui labeled icon button">
-            <i class="left arrow icon"></i>
-            <Link to='/trips'>Back to All Trips</Link>
-          </button>
-          <button class="ui labeled icon button">
-            <i class="plus icon"></i>
-            <Link to='/newflight'>Add a Flight</Link>
+          <h3 className="ui horizontal divider header">
+            <i className="tasks icon"></i>
+            Packing List
+          </h3>
+          <PackingList id={this.props.match.params.tripId}/>
+          <h3 className="ui horizontal divider header">
+            <i className="linkify icon"></i>
+            Links
+          </h3>
+          <h3 className="ui horizontal divider header">
+            <i className="camera retro icon"></i>
+            Photos
+          </h3>
+          <br></br>
+          <button className="ui labeled icon button">
+            <i className="left arrow icon"></i>
+            <Link to='/profile'>Back to Profile</Link>
           </button>
       </div>)
       );
@@ -76,11 +83,12 @@ const mapStateToProps = state => ({
   currentUser: state.auth.currentUser,
   flight: state.flights.item,
   flights: state.flights.items,
-  active_itinerary: state.trips.day
+  active_itinerary: state.trips.day,
+  days: state.trips.days
 })
 
 const mapDispatchToProps = dispatch => {
-  return bindActionCreators({fetchFlights: fetchFlights, selectTrip: selectTrip}, dispatch)
+  return bindActionCreators({fetchFlights: fetchFlights, selectTrip: selectTrip, fetchDays: fetchDays}, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TripDetails);

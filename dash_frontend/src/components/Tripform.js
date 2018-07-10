@@ -1,11 +1,9 @@
 import React , { Component } from 'react';
 import { connect } from 'react-redux';
 import { createTrip } from '../actions/tripActions';
-import { Redirect } from "react-router";
 import { Field, reduxForm } from 'redux-form';
 import { Link } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
-import moment from 'moment';
 import 'react-datepicker/dist/react-datepicker.css';
 import withAuth from '../hocs/withAuth';
 
@@ -62,11 +60,11 @@ class TripForm extends Component {
 
     return(
       <div>
-        <div class="ui right floated left labeled button" tabindex="0">
-        <label class="ui basic right pointing label">
-          <i class="user icon"></i> {this.props.currentUser.username}
+        <div className="ui right floated left labeled button" tabindex="0">
+        <label className="ui basic right pointing label">
+          <i className="user icon"></i> {this.props.currentUser.username}
         </label>
-        <div class="ui right floated button" onClick={e => {
+        <div className="ui right floated button" onClick={e => {
             e.preventDefault();
             this.props.logoutUser();
           }}>
@@ -75,14 +73,14 @@ class TripForm extends Component {
           </div>
 
       <div class ="ui teal ribbon label"><h2>New Trip:</h2></div><br></br><br></br>
-      <form class="ui form" onSubmit={  handleSubmit(this.onSubmit.bind(this)) } >
+      <form className="ui form" onSubmit={  handleSubmit(this.onSubmit.bind(this)) } >
 
         <Field
           label="Trip Name"
           name="name"
           component={this.renderField}
         />
-      <div class="two fields">
+      <div className="two fields">
         <DatePicker
           label="Start Date"
           name="start_date"
@@ -96,7 +94,7 @@ class TripForm extends Component {
           onChange={this.handleEndDateChange}
         />
     </div>
-      <button type="submit" class="ui button">Submit</button>
+      <button type="submit" className="ui button">Submit</button>
       <Link to="/trips" className="btn btn-danger">Cancel</Link>
       </form>
       </div>

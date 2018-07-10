@@ -30,10 +30,10 @@ class Login extends React.Component {
     const { fields } = this.state;
     return (
       <div>
-        <h1 class="ui header">
-          <i class="compass outline icon"></i>
-          <div class="content">
-            <img src='dash_simple.png' height='60px'></img>
+        <h1 className="ui header">
+          <i className="compass outline icon"></i>
+          <div className="content">
+            <img src='dash_simple.png' alt="" height='60px'></img>
           </div>
         </h1>
         <div className="ui form">

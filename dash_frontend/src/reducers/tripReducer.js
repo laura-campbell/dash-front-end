@@ -3,7 +3,9 @@ const initialState = {
   items: [],
   active_trip: {},
   days: [],
-  day: {}
+  day: {},
+  events: [],
+  event:  {}
 }
 
 const tripReducer = (state = initialState, action) => {
@@ -33,10 +35,30 @@ const tripReducer = (state = initialState, action) => {
         ...state,
         day: action.payload
       }
+    case 'ADD_EVENT':
+      return {
+        ...state,
+        event: action.payload
+      }
     case 'FETCH_DAYS':
       return {
         ...state,
         days: action.payload
+      }
+    case 'FETCH_EVENTS':
+      return {
+        ...state,
+        events: action.payload
+      }
+    case 'FETCH_PACKING_LIST':
+      return {
+        ...state,
+        packinglist: action.payload
+      }
+    case 'NEW_PACKING_LIST':
+      return {
+        ...state,
+        listitem: action.payload
       }
     default:
       return state;

@@ -15,7 +15,7 @@ const rootReducer = combineReducers({
   auth: authReducer,
   trips: tripReducer,
   form: formReducer,
-  flights: flightReducer
+  flights: flightReducer,
 });
 
 export default rootReducer;

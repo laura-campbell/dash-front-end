@@ -1,12 +1,10 @@
 import React , { Component } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchTrips, selectTrip } from '../actions/tripActions';
 import { fetchUser } from '../actions';
 import Trip from '../components/Trip';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
-import { Grid } from "semantic-ui-react";
 import withAuth from '../hocs/withAuth';
 
 class Trips extends Component {
@@ -20,30 +18,30 @@ class Trips extends Component {
   //     this.props.trips.unshift(nextProps.newTrip);
   //   }
   // }
-rn
+
   render() {
     return (!!this.props.trips ?  <div>
-      <div class="ui right floated left labeled button" tabindex="0">
-      <label class="ui basic right pointing label">
-        <i class="user icon"></i> {this.props.currentUser.username}
+      <div className="ui right floated left labeled button" tabIndex="0">
+      <label className="ui basic right pointing label">
+        <i className="user icon"></i> {this.props.currentUser.username}
       </label>
-      <div class="ui right floated button" onClick={e => {
+      <div className="ui right floated button" onClick={e => {
           e.preventDefault();
           this.props.logoutUser();
         }}>
           Logout
           </div>
         </div>
-          <h1><img src="map-7.png" height='50px'></img>&nbsp;<img src="trips.png" height='50px'></img></h1>
+          <h1><img src="map-7.png" alt="" height='50px'></img>&nbsp;<img src="trips.png" alt="" height='50px'></img></h1>
           <br></br><br></br>
                 {this.props.trips.map(trip =>
-                  <Trip key={trip.trip.id} trip={trip.trip} selectTrip={this.props.selectTrip}/>)}
+                  <Trip key={trip.trip.id} trip={trip.trip} />)}
                     <br></br><br></br><br></br>
                     <div className="ui teal button">
-                      <Link to="/trips/new" style={ {color: '#FFF'} }><i class="plus icon"></i>Add a New Trip</Link>
+                      <Link to="/trips/new" style={ {color: '#FFF'} }><i className="plus icon"></i>Add a New Trip</Link>
                     </div>
                     <div className="ui blue button">
-                    <Link to='/profile' style={ {color: '#FFF'} }><i class="left chevron icon"></i>Back to Profile</Link>
+                    <Link to='/profile' style={ {color: '#FFF'} }><i className="left chevron icon"></i>Back to Profile</Link>
                     </div>
                   </div>
                     :
