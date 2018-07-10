@@ -5,7 +5,11 @@ A travel dashboard to organize your entire itinerary in one easily-accessible, p
 This is a student project, created in my final module for Flatiron School's immersive web development program.
  
 ## Screenshots
-![](dash_frontend/public/dash.png)
+![](dash_frontend/public/screen-1.png)
+
+![](dash_frontend/public/screen-3.png)
+
+![](dash_frontend/public/screen-2.png)
 
 ## Tech/framework used
 
