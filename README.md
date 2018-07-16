@@ -18,6 +18,9 @@ This is a student project, created in my final module for Flatiron School's imme
 - [Redux](https://redux.js.org/)
 
 ## Installation
+
+First make sure the backend is running (located at https://github.com/laura-campbell/dash), then:
+
 ```$ yarn install```
 
 ```$ yarn start```
