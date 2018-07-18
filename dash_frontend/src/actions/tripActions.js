@@ -130,6 +130,16 @@ export const createDay = (info) => dispatch => {
       })).then(day => console.log(day))
       }
 
+export const selectDay = (id) => dispatch => {
+    console.log(id);
+    fetch(`http://localhost:3000/api/v1/days/${id}`)
+    .then(res => res.json())
+    .then(day => dispatch({
+      type: 'SELECT_DAY',
+      payload: day
+    }));
+  }
+
 export const fetchDays = (id) => dispatch => {
     console.log(id);
     fetch(`http://localhost:3000/api/v1/trips/${id}/days`)

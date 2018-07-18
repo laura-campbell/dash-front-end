@@ -5,6 +5,8 @@ import { createDay, fetchDays, selectTrip, createEvent, fetchEvents } from '../a
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import moment from 'moment';
+import { Accordion, Button, Form, Segment } from 'semantic-ui-react';
+import EventList from './EventList'
 
 
 class Itinerary extends React.Component {
@@ -12,7 +14,8 @@ class Itinerary extends React.Component {
   state = {
     day: moment(),
     description: '',
-    currentDayId: ''
+    activeIndex: 0,
+    editing: false,
   }
 
   componentDidMount() {
@@ -20,6 +23,7 @@ class Itinerary extends React.Component {
       this.props.selectTrip(this.props.id);
       console.log(this.props);
     }
+
 
   // trip_id: '',
   // current_itinerary: {
@@ -49,78 +53,125 @@ class Itinerary extends React.Component {
         })
       console.log(this.state)}
 
-  onAdd = (event) => {
-    event.preventDefault();
-    console.log(this.state);
-    this.props.createDay({trip_id: this.props.trip.trip.id, daystring: event.target.name})
+
+  selectDay = (e) => {
+    e.preventDefault();
+    this.props.createDay({trip_id: this.props.trip.trip.id, daystring: e.target.value}
+    )
   }
 
   onSave = (event) => {
-    this.props.createEvent({day_id: this.props.currentDay.id, description: this.state.description}, this.props.history);
+    this.props.createEvent({day_id: this.props.currentDay.day.id, description: this.state.description}, this.props.history);
   }
 
-  getEvents = (event) => {
-    event.preventDefault();
-    console.log(this.props.currentDay.id);
-    this.props.fetchEvents(this.props.currentDay.id);
+  onEdit = (event) => {
+    this.setState({
+      editing: true
+        })
   }
 
-  createTable = (startday) => {
-    let table = [];
-    let day = moment(startday);
-    console.log(day)
-    for (let i = 0; i < this.props.length; i++) {
-      let newday = day.add(1, 'days');
-
-      table.push(<tr><form onSubmit={this.onSave}>
-
-      <td><i className="calendar check outline icon"></i><div name="day">{newday.format('dddd MMM DD').toString()}</div></td>
-
-    <td><button name={newday.format('dddd MMM DD').toString()} onClick={this.getEvents}> Show Events </button></td>
-
-      <td>
-        {this.props.events.map(event => {
-          return <p>{event.event.description}</p>
-        })}
-      <input onChange={this.handleChange} name="description" type="text" id={newday.format('dddd MMM DD').toString()} ></input><button type="submit">Save</button></td>
-      <button onClick={this.onAdd} name={newday.format('dddd MMM DD').toString()}>Add Event</button>
-      </form></tr>)      }
-      return table
+  addEvent = () => {
+    console.log(this.props.currentDay.day.id)
   }
+
+  // initialize = (startday) => {
+  //   let day = moment(startday);
+  //     console.log(this.props.length)
+  //     for (let i = 0; i < this.props.length; i++) {
+  //     let newday = day.add(1, 'days');
+  //     this.props.createDay({trip_id: this.props.trip.trip.id, daystring: newday.format('dddd MMM DD').toString()})
+  // }}
+
+
+  //
+  //     table.push(<tr><form onSubmit={this.onSave}>
+  //       <td> <label value={newday.format('dddd MMM DD').toString()}>{newday.format('dddd MMM DD').toString()}</label>
+  //        <input onClick={this.selectDay} onChange={this.handleChange} name='description'/><button type="submit">Save</button></td>
+  //     </form></tr>)}
+  //
+  //       return table
+  //   }
+
+      //   <Segment>
+      //   <Form onSubmit={this.onSave}>
+      //
+      //     {this.state.editing ?
+      //     <Accordion as={Form.Field} onTitleClick= {this.selectDay} onChange= {this.handleChange} panels={[
+      //       {
+      //         title: newday.format('dddd MMM DD').toString(),
+      //         value: newday,
+      //         content: {
+      //           as: Form.Input,
+      //           label: 'Description',
+      //           placeholder: 'Activity',
+      //           name: 'description'
+      //         },
+      //       }
+      //     ]} />
+      //
+      //   :
+      //
+      //   <Accordion as={Form.Field} onTitleClick= {this.selectDay, () => {this.props.fetchEvents(this.state.currentDayId)}} onChange= {this.handleChange} panels={[
+      //     {
+      //       title: newday.format('dddd MMM DD').toString(),
+      //       value: newday,
+      //       content: this.props.currentDay.day ? `${this.props.events}` : null
+      //       }
+      //   ]} />}
+      //
+      //   </Form>
+      // </Segment>
+
+
+
 
   render () {
-    console.log(this.props)
+    console.log(this.props);
+    console.log(this.state);
     console.log(this.props.trip.trip.start_date);
-      return (
-        <div className="ui equal width grid">
-          <div className="row"><label><h4>Schedule:</h4></label>
-            <div className="ten wide column">
 
-              <div className="ui segment">
+        let days=[moment(this.props.trip.trip.start_date).format('dddd MMM DD').toString()];
+        let day = moment(this.props.trip.trip.start_date);
+        console.log(this.props.length);
+        for (let i = 0; i < this.props.length; i++) {
+        let newday = day.add(1, 'days');
+        days.push(newday.format('dddd MMM DD').toString())}
+
+      return (
+        <div className="ui grid">
+
+          <div className="four wide column"><label><h4>Schedule:</h4></label>
                 <table className="ui celled table">
                   <tbody>
+                    <EventList />
+                    </tbody>
+                  </table>
+                    </div>
 
-                {this.createTable(this.props.trip.trip.start_date)}
-              </tbody></table></div></div>        </div>
-                      </div>  )
+              <div className="four wide column">{this.props.currentDay.day ? this.props.currentDay.day.daystring : null}
+
+            <ul>{this.props.events.map(event =>
+                    <li>{event.event.description}</li>)}</ul></div>
+
+                    <div className="twelve wide column">
+                      <form onSubmit={this.onSave}>
+                        <div class="inline fields">
+                          <div class="eight wide field">
+                        <label>Date:</label>
+
+                          <select onChange={this.selectDay} class="ui dropdown">
+                            {days.map(day =>
+                              <option>{day}</option>)}
+                          </select>
+
+                        </div>
+                        <div class="eight wide field"><label>Activity:</label><input type="text" onChange={this.handleChange} name='description' /><button type="submit">Save</button></div>
+                      </div></form></div>
+
+                    </div>
+            )
 
                       }}
-
-                // {this.props.days? this.props.days.map(day =>
-                //   <tr key={day.day.id}>
-                //       <td>
-                //         <i className="calendar check outline icon"></i>
-                //         {day.day.daystring}</td>
-                //       <td>
-                //     </td>
-                //   </tr>
-                // ) : null}
-                //
-                // {this.props.days.map(day =>
-                //   {this.getEvents(day.day.id), () => {
-                //     this.props.events.map(event => {console.log(event.id)})
-                // }})}
-
 
       //     <div className="six wide column">
       //     <div className= "ui form">
@@ -223,7 +274,7 @@ class Itinerary extends React.Component {
     currentUser: state.auth.currentUser,
     trip: state.trips.active_trip,
     days: state.trips.days,
-    currentDay: state.trips.day.day,
+    currentDay: state.trips.day,
     events: state.trips.events
   });
 

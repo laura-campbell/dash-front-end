@@ -40,7 +40,7 @@ class TripDetails extends React.Component {
                     <div className="ui teal segment">
                       <h4 className="ui header">Dates:&nbsp;&nbsp;&nbsp;&nbsp; {new Date(this.props.active_trip.trip.start_date).toDateString()}  <i className="caret right icon"></i>{new Date(this.props.active_trip.trip.end_date).toDateString()}</h4>
                   </div>
-                <div className="ui teal segment"><h4 className="ui header">Length of Trip:&nbsp;&nbsp;&nbsp;&nbsp; {moment(Date.parse(this.props.active_trip.trip.end_date)).diff(moment(Date.parse(this.props.active_trip.trip.start_date)), 'days')} days
+                <div className="ui teal segment"><h4 className="ui header">Length of Trip:&nbsp;&nbsp;&nbsp;&nbsp; {moment(Date.parse(this.props.active_trip.trip.end_date)).diff(moment(Date.parse(this.props.active_trip.trip.start_date)), 'days')+1} days
                 </h4></div></div>
 
               <div className="ui blue segment"><Itinerary id={this.props.match.params.tripId} length={moment(Date.parse(this.props.active_trip.trip.end_date)).diff(moment(Date.parse(this.props.active_trip.trip.start_date)), 'days')} /></div>
