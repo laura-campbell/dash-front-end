@@ -15,7 +15,7 @@ class FlightDetails extends React.Component {
   render() {
     console.log(this.props.active_trip)
     return (
-      (!this.props.active_trip.trip) ? null :
+      (!this.props.flights) ? null :
       (<div><div className="ui cards">
        {this.props.flights.map(flight => {
          return (

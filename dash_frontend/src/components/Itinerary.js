@@ -5,7 +5,7 @@ import { createDay, fetchDays, selectTrip, createEvent, fetchEvents } from '../a
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import moment from 'moment';
-import { Accordion, Button, Form, Segment } from 'semantic-ui-react';
+import { Accordion, Button, Form, Segment, Input } from 'semantic-ui-react';
 import EventList from './EventList'
 
 
@@ -127,24 +127,19 @@ class Itinerary extends React.Component {
       return (
         <div className="ui grid">
 
-          <div className="four wide column"><label><h4>Schedule:</h4></label>
-                <table className="ui celled table">
-                  <tbody>
+          <div className="eight wide column"><label><h4>Schedule:</h4></label>
+
+                  <div className="ui styled fluid accordion">
                     <EventList />
-                    </tbody>
-                  </table>
                     </div>
 
-              <div className="four wide column">
-
-              <ul>{this.props.events.map(event =>
-                    <li>{event.event.description}</li>)}</ul></div>
+                    </div>
 
                     <div className="eight wide column">
                       <form onSubmit={this.onSave}>
                         <div class="inline fields">
                           <div class="eight wide field">
-                        <label>Date:</label>
+                        <label>Date:</label><br></br>
 
                           <select name='day_id' onChange={this.handleChange} class="ui dropdown">
                             <option>--</option>
@@ -153,7 +148,8 @@ class Itinerary extends React.Component {
                           </select>
 
                         </div>
-                        <div class="eight wide field"><label>Activity:</label><input type="text" onChange={this.handleChange} name='description' id='activity'/><button type="submit">Save</button></div></div></form></div>
+                        <div class="eight wide field"><label>Activity:</label><Input type="text" fluid="true" onChange={this.handleChange} name='description' id='activity'/>
+                        <Button type="submit">Save</Button></div></div></form></div>
 
                     </div>
             )
