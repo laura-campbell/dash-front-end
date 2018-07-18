@@ -17,12 +17,11 @@ class EventList extends React.Component {
     }
 
     render () {
-      console.log(this.props)
       return (
 
         //return list of days associated with that trip and then events associated with those days so...
 
-      this.props.days? this.props.days.map(day =>
+      this.props.days? this.props.days.sort(function(a, b){return moment(a.day.daystring) - moment(b.day.daystring)}).map(day =>
         <tr key={day.day.id}> <td>
               <i className="calendar check outline icon"></i>
               {day.day.daystring} <Event day={day} /></td>

@@ -6,16 +6,18 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import moment from 'moment';
 import { Accordion, Button, Form, Segment } from 'semantic-ui-react';
-import Schedule from './Schedule'
 
-class Event extends React.Component {
+class Schedule extends React.Component {
 
-  componentDidMount() {
-  this.props.selectDay(this.props.day.day.id)}
+  handleClick = () => {
+    this.props.fetchEvents(this.props.day.id)
+  }
 
     render () {
-      return (
-      <Schedule day={this.props.day.day}/>
+      console.log(this.props.events)
+      return (<button onClick={this.handleClick}>
+        Show Schedule
+      </button>
       )
     }}
 
@@ -31,4 +33,4 @@ class Event extends React.Component {
       return bindActionCreators({selectDay:selectDay, fetchEvents: fetchEvents}, dispatch)
     }
 
-    export default connect(mapStateToProps, mapDispatchToProps)(Event);
+    export default connect(mapStateToProps, mapDispatchToProps)(Schedule);

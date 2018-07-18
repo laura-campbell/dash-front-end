@@ -12,17 +12,17 @@ import EventList from './EventList'
 class Itinerary extends React.Component {
 
   state = {
-    day: moment(),
+    day_id: 0,
     description: '',
-    activeIndex: 0,
-    editing: false,
   }
 
-  componentDidMount() {
-      this.props.fetchDays(this.props.id);
-      this.props.selectTrip(this.props.id);
-      console.log(this.props);
-    }
+  componentWillMount() {
+    let length = moment(Date.parse(this.props.trip.trip.end_date)).diff(moment(Date.parse(this.props.trip.trip.start_date)), 'days');
+      let day = moment(this.props.trip.trip.start_date.toLocaleString()).subtract(1, 'days');
+      for (let i = 0; i < length+1; i++) {
+      let newday = day.add(1, 'days');
+      this.props.createDay({trip_id: this.props.trip.trip.id, daystring: newday.format('dddd MMM DD').toString()})};
+  }
 
 
   // trip_id: '',
@@ -49,19 +49,13 @@ class Itinerary extends React.Component {
     event.preventDefault();
     this.setState({
       [event.target.name]: event.target.value,
-      day: event.target.id
         })
       console.log(this.state)}
 
-
-  selectDay = (e) => {
-    e.preventDefault();
-    this.props.createDay({trip_id: this.props.trip.trip.id, daystring: e.target.value}
-    )
-  }
-
   onSave = (event) => {
-    this.props.createEvent({day_id: this.props.currentDay.day.id, description: this.state.description}, this.props.history);
+    event.preventDefault();
+    document.getElementById('activity').value='';
+    this.props.createEvent({day_id: this.state.day_id, description: this.state.description}, this.props.history);
   }
 
   onEdit = (event) => {
@@ -130,13 +124,6 @@ class Itinerary extends React.Component {
     console.log(this.state);
     console.log(this.props.trip.trip.start_date);
 
-        let days=[moment(this.props.trip.trip.start_date).format('dddd MMM DD').toString()];
-        let day = moment(this.props.trip.trip.start_date);
-        console.log(this.props.length);
-        for (let i = 0; i < this.props.length; i++) {
-        let newday = day.add(1, 'days');
-        days.push(newday.format('dddd MMM DD').toString())}
-
       return (
         <div className="ui grid">
 
@@ -148,25 +135,25 @@ class Itinerary extends React.Component {
                   </table>
                     </div>
 
-              <div className="four wide column">{this.props.currentDay.day ? this.props.currentDay.day.daystring : null}
+              <div className="four wide column">
 
-            <ul>{this.props.events.map(event =>
+              <ul>{this.props.events.map(event =>
                     <li>{event.event.description}</li>)}</ul></div>
 
-                    <div className="twelve wide column">
+                    <div className="eight wide column">
                       <form onSubmit={this.onSave}>
                         <div class="inline fields">
                           <div class="eight wide field">
                         <label>Date:</label>
 
-                          <select onChange={this.selectDay} class="ui dropdown">
-                            {days.map(day =>
-                              <option>{day}</option>)}
+                          <select name='day_id' onChange={this.handleChange} class="ui dropdown">
+                            <option>--</option>
+                            {this.props.days.map(day =>
+                              <option value={day.day.id}>{day.day.daystring}</option>)}
                           </select>
 
                         </div>
-                        <div class="eight wide field"><label>Activity:</label><input type="text" onChange={this.handleChange} name='description' /><button type="submit">Save</button></div>
-                      </div></form></div>
+                        <div class="eight wide field"><label>Activity:</label><input type="text" onChange={this.handleChange} name='description' id='activity'/><button type="submit">Save</button></div></div></form></div>
 
                     </div>
             )

@@ -1,5 +1,5 @@
 import React from 'react';
-import { fetchFlights, selectTrip, fetchDays } from '../actions/tripActions';
+import { createDay, fetchFlights, selectTrip, fetchDays } from '../actions/tripActions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
@@ -11,15 +11,26 @@ import Itinerary from './Itinerary';
 
 class TripDetails extends React.Component {
 
-  componentDidMount() {
-    console.log(this.props.match.params.tripId);
+  componentWillMount() {
     this.props.selectTrip(this.props.match.params.tripId);
+    console.log(this.props);
   }
 
+  // componentDidMount() {
+  //   let length = moment(Date.parse(this.props.active_trip.trip.end_date)).diff(moment(Date.parse(this.props.active_trip.trip.start_date)), 'days');
+  //   let day = moment(this.props.active_trip.trip.start_date.toLocaleString()).subtract(1, 'days');
+  //   for (let i = 0; i < length+1; i++) {
+  //   let newday = day.add(1, 'days');
+  //   this.props.createDay({trip_id: this.props.active_trip.trip.id, daystring: newday.format('dddd MMM DD').toString()})}
+  // }
+
   render() {
-    console.log(this.props);
+
     return (
       (!this.props.active_trip.trip) ? null :
+
+
+
       (<div>
 
         <button className="ui right floated button">
@@ -88,7 +99,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => {
-  return bindActionCreators({fetchFlights: fetchFlights, selectTrip: selectTrip, fetchDays: fetchDays}, dispatch)
+  return bindActionCreators({createDay:createDay, fetchFlights: fetchFlights, selectTrip: selectTrip, fetchDays: fetchDays}, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TripDetails);

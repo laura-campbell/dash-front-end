@@ -1,11 +1,12 @@
 import React , { Component } from 'react';
 import { connect } from 'react-redux';
-import { createTrip } from '../actions/tripActions';
+import { createDay, createTrip } from '../actions/tripActions';
 import { Field, reduxForm } from 'redux-form';
 import { Link } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import withAuth from '../hocs/withAuth';
+import moment from 'moment';
 
 
 class TripForm extends Component {
@@ -45,14 +46,11 @@ class TripForm extends Component {
     );
   }
 
-
   onSubmit = (values) => {
     const tripValues = {user_id: this.props.currentUser.id, name: values.name, start_date: this.state.startDate.toLocaleString(), end_date: this.state.endDate.toLocaleString()};
     console.log(tripValues);
     console.log(this.props);
-    this.props.createTrip(tripValues, this.props.history);
-    console.log(this.props)
-  }
+    this.props.createTrip(tripValues, this.props.history)}
 
   render() {
     console.log(this.props)
@@ -150,5 +148,5 @@ export default withAuth(reduxForm({
   validate,
   form: 'NewTripForm'
 })(
-  connect(mapStateToProps, { createTrip })(TripForm))
+  connect(mapStateToProps, { createDay, createTrip })(TripForm))
 );
