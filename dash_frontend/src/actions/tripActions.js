@@ -41,7 +41,6 @@ export const createListItem = (itemData, history) => dispatch => {
     type: 'NEW_PACKING_LIST',
     payload: item
   }))
-  .then(item => history.push(`/trip/${item.payload.item.trip_id}`))
   }
 
   export const createTrip = (tripData, history) => dispatch => {

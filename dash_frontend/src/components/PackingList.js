@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { fetchPackingList, createListItem } from '../actions/tripActions';
+import { Segment, Checkbox } from 'semantic-ui-react'
+
 
 class PackingList extends React.Component {
 
@@ -14,6 +16,10 @@ class PackingList extends React.Component {
     this.props.fetchPackingList(this.props.id)
   }
 
+  // componentDidUpdate() {
+  //   this.props.fetchPackingList(this.props.id)
+  // }
+
   handleChange = (event) => {
     event.preventDefault();
     this.setState({
@@ -21,31 +27,25 @@ class PackingList extends React.Component {
         })
       console.log(this.state)}
 
-      onSubmit = () => {
+      onSubmit = (e) => {
         console.log(this.state);
+        e.preventDefault();
         this.props.createListItem({trip_id: this.state.trip_id, name: this.state.name}, this.props.history)
       }
 
   render() {
     console.log(this.props)
-    return (<div>
+    return (<div className="ui grid">
       {(!this.props.packinglist) ? null :
-      (<div className="ui cards">
+      (<div className="six wide column">
+        <Segment color='olive'>
        {this.props.packinglist.map(item => {
-         return (
-         <div className="card">
-         <div className="content">
-          <h3 className="ui top attached centered header">{item.packing_list.name}</h3>
-          <div className="ui attached segment">
-            <table className="ui celled table">
-               <tbody>
-               </tbody>
-             </table>
-          </div>
-       </div>
-     </div>
+         return (<div>
+         <Checkbox className="h3" label={item.packing_list.name} />
+         <br></br>
+         </div>
        )
-       })}
+       })}</Segment>
      </div>)}
 
       <div className="six wide column">
