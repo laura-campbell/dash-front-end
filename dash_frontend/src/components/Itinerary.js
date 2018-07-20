@@ -16,7 +16,7 @@ class Itinerary extends React.Component {
     description: '',
   }
 
-  componentWillMount() {
+  componentDidMount() {
     let length = moment(Date.parse(this.props.trip.trip.end_date)).diff(moment(Date.parse(this.props.trip.trip.start_date)), 'days');
       let day = moment(this.props.trip.trip.start_date.toLocaleString()).subtract(1, 'days');
       for (let i = 0; i < length+1; i++) {

@@ -13,11 +13,6 @@ class Trips extends Component {
     this.props.fetchTrips(this.props.currentUser.id)
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   if(nextProps.newTrip) {
-  //     this.props.trips.unshift(nextProps.newTrip);
-  //   }
-  // }
 
   render() {
     return (!!this.props.trips ?  <div>

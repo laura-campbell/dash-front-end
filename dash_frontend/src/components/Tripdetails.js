@@ -1,5 +1,5 @@
 import React from 'react';
-import { createDay, fetchFlights, selectTrip, fetchDays } from '../actions/tripActions';
+import { selectTrip } from '../actions/tripActions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
@@ -7,15 +7,15 @@ import FlightDetails from './Flightdetails';
 import PackingList from './PackingList';
 import moment from 'moment';
 import Itinerary from './Itinerary';
+import Links from './Links'
 
 
 class TripDetails extends React.Component {
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.selectTrip(this.props.match.params.tripId);
     console.log(this.props);
   }
-
   // componentDidMount() {
   //   let length = moment(Date.parse(this.props.active_trip.trip.end_date)).diff(moment(Date.parse(this.props.active_trip.trip.start_date)), 'days');
   //   let day = moment(this.props.active_trip.trip.start_date.toLocaleString()).subtract(1, 'days');
@@ -28,8 +28,6 @@ class TripDetails extends React.Component {
 
     return (
       (!this.props.active_trip.trip) ? null :
-
-
 
       (<div>
 
@@ -66,15 +64,8 @@ class TripDetails extends React.Component {
             <i className="tasks icon"></i>
             Packing List
           </h3>
-          <PackingList id={this.props.match.params.tripId}/>
-          <h3 className="ui horizontal divider header">
-            <i className="linkify icon"></i>
-            Links
-          </h3>
-          <h3 className="ui horizontal divider header">
-            <i className="camera retro icon"></i>
-            Photos
-          </h3>
+          <PackingList id={this.props.match.params.tripId} length={moment(Date.parse(this.props.active_trip.trip.end_date)).diff(moment(Date.parse(this.props.active_trip.trip.start_date)), 'days')+1}/>
+
           <br></br>
           <button className="ui labeled icon button">
             <i className="left arrow icon"></i>
@@ -91,15 +82,25 @@ class TripDetails extends React.Component {
 
 const mapStateToProps = state => ({
   active_trip: state.trips.active_trip,
-  currentUser: state.auth.currentUser,
-  flight: state.flights.item,
-  flights: state.flights.items,
-  active_itinerary: state.trips.day,
-  days: state.trips.days
 })
 
 const mapDispatchToProps = dispatch => {
-  return bindActionCreators({createDay:createDay, fetchFlights: fetchFlights, selectTrip: selectTrip, fetchDays: fetchDays}, dispatch)
+  return bindActionCreators({selectTrip: selectTrip}, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TripDetails);
+
+
+
+// <h3 className="ui horizontal divider header">
+//   <i className="linkify icon"></i>
+//   Websites
+// </h3>
+// <Links />
+
+
+          // 
+          // <h3 className="ui horizontal divider header">
+          //   <i className="camera retro icon"></i>
+          //   Photos
+          // </h3>

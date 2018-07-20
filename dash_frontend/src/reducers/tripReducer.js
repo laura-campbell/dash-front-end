@@ -55,16 +55,6 @@ const tripReducer = (state = initialState, action) => {
         ...state,
         events: action.payload
       }
-    case 'FETCH_PACKING_LIST':
-      return {
-        ...state,
-        packinglist: action.payload
-      }
-    case 'NEW_PACKING_LIST':
-      return {
-        ...state,
-        listitem: action.payload
-      }
     default:
       return state;
   }

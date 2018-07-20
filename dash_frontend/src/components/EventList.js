@@ -21,6 +21,7 @@ class EventList extends React.Component {
       this.props.fetchDays(this.props.trip.trip.id);
     }
 
+
       handleTitleClick = (e, itemProps) => {
         console.log(itemProps);
         console.log(e);

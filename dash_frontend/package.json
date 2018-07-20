@@ -6,11 +6,13 @@
     "react-scripts": "1.0.17"
   },
   "dependencies": {
+    "dayz": "^0.8.3",
     "dotenv": "^6.0.0",
     "moment": "^2.22.2",
     "rc-datepicker": "^5.0.13",
     "react": "^16.2.0",
     "react-add-to-calendar": "^0.1.5",
+    "react-big-calendar": "^0.19.2",
     "react-calendar": "^2.15.2",
     "react-datepicker": "^1.5.0",
     "react-dom": "^16.2.0",
