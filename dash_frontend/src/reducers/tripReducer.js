@@ -45,20 +45,15 @@ const tripReducer = (state = initialState, action) => {
         ...state,
         days: action.payload
       }
+    case 'SELECT_DAY':
+      return {
+        ...state,
+        day: action.payload
+      }
     case 'FETCH_EVENTS':
       return {
         ...state,
         events: action.payload
-      }
-    case 'FETCH_PACKING_LIST':
-      return {
-        ...state,
-        packinglist: action.payload
-      }
-    case 'NEW_PACKING_LIST':
-      return {
-        ...state,
-        listitem: action.payload
       }
     default:
       return state;

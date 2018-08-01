@@ -1,18 +1,29 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { fetchPackingList, createListItem } from '../actions/tripActions';
+import { deleteItem, fetchPackingList, createListItem } from '../actions/tripActions';
+import { Button, Segment, Checkbox } from 'semantic-ui-react';
+import Items from './Items'
+
 
 class PackingList extends React.Component {
 
   state = {
     trip_id: this.props.id,
-    name: ''
+    name: '',
+    submitted: false,
   }
 
   componentDidMount() {
     this.props.fetchPackingList(this.props.id)
   }
+
+  componentDidUpdate(prevProps) {
+  if (this.props.listitem !== prevProps.listitem || this.props.deletedItem !== prevProps.deletedItem) {
+    this.props.fetchPackingList(this.props.id);
+  }
+
+}
 
   handleChange = (event) => {
     event.preventDefault();
@@ -21,34 +32,36 @@ class PackingList extends React.Component {
         })
       console.log(this.state)}
 
-      onSubmit = () => {
+      onSubmit = (e) => {
         console.log(this.state);
-        this.props.createListItem({trip_id: this.state.trip_id, name: this.state.name}, this.props.history)
+        e.preventDefault();
+        this.props.createListItem({trip_id: this.state.trip_id, name: this.state.name});
       }
+
+      deleteItem = (event, data) => {
+        console.log(data.id);
+        this.props.deleteItem(this.props.id, data.id);
+      }
+
 
   render() {
     console.log(this.props)
-    return (<div>
+    return (<div className="ui grid">
       {(!this.props.packinglist) ? null :
-      (<div className="ui cards">
+      (<div className="six wide column">
+        <Segment color='olive'>
        {this.props.packinglist.map(item => {
-         return (
-         <div className="card">
-         <div className="content">
-          <h3 className="ui top attached centered header">{item.packing_list.name}</h3>
-          <div className="ui attached segment">
-            <table className="ui celled table">
-               <tbody>
-               </tbody>
-             </table>
-          </div>
-       </div>
-     </div>
+         return (<div>
+           <Button icon onClick={this.deleteItem} id={item.packing_list.id} label={item.packing_list.name} icon='check icon' >
+             </Button>
+
+         <br></br>
+         </div>
        )
-       })}
+       })}</Segment>
      </div>)}
 
-      <div className="six wide column">
+      <div className="three wide column">
       <div className= "ui form">
         <form onSubmit={this.onSubmit}>
         <div className="three fields">
@@ -58,6 +71,7 @@ class PackingList extends React.Component {
     </form>
   </div>
     </div>
+    <Items id={this.props.id} length={this.props.length}/>
     </div>
       );
     }
@@ -65,13 +79,13 @@ class PackingList extends React.Component {
 
 
 const mapStateToProps = state => ({
-  packinglist: state.trips.packinglist,
-  currentUser: state.auth.currentUser,
-  active_trip: state.trips.active_trip
+  packinglist: state.packinglist.packinglist,
+  listitem: state.packinglist.listitem,
+  deletedItem: state.packinglist.deleteditem
 })
 
 const mapDispatchToProps = dispatch => {
-  return bindActionCreators({fetchPackingList: fetchPackingList, createListItem: createListItem}, dispatch)
+  return bindActionCreators({deleteItem: deleteItem, fetchPackingList: fetchPackingList, createListItem: createListItem}, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PackingList);

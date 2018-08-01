@@ -27,7 +27,7 @@ export const fetchPackingList = (id) => dispatch => {
   }));
 }
 
-export const createListItem = (itemData, history) => dispatch => {
+export const createListItem = (itemData) => dispatch => {
   fetch(`http://localhost:3000/api/v1/trips/${itemData.trip_id}/packinglist`, {
     method: 'POST',
     headers: {
@@ -41,7 +41,6 @@ export const createListItem = (itemData, history) => dispatch => {
     type: 'NEW_PACKING_LIST',
     payload: item
   }))
-  .then(item => history.push(`/trip/${item.payload.item.trip_id}`))
   }
 
   export const createTrip = (tripData, history) => dispatch => {
@@ -114,6 +113,16 @@ export const createListItem = (itemData, history) => dispatch => {
     }));
   }
 
+  export const deleteItem = (tripId, itemId) => dispatch => {
+    fetch(`http://localhost:3000/api/v1/trips/${tripId}/packinglist/${itemId}/delete`, {
+      method: 'DELETE'})
+    .then(res => res.json())
+    .then(data => dispatch({
+      type: 'DELETE_ITEM',
+      payload: data
+    }));
+  }
+
 export const createDay = (info) => dispatch => {
       fetch(`http://localhost:3000/api/v1/trips/${info.trip_id}/days`, {
         method: 'POST',
@@ -129,6 +138,16 @@ export const createDay = (info) => dispatch => {
         payload: day
       })).then(day => console.log(day))
       }
+
+export const selectDay = (id) => dispatch => {
+    console.log(id);
+    fetch(`http://localhost:3000/api/v1/days/${id}`)
+    .then(res => res.json())
+    .then(day => dispatch({
+      type: 'SELECT_DAY',
+      payload: day
+    }));
+  }
 
 export const fetchDays = (id) => dispatch => {
     console.log(id);
