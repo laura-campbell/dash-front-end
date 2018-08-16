@@ -43,6 +43,8 @@ class FlightForm extends Component {
     console.log(formattedDate);
     const api_id = process.env.REACT_APP_FLIGHT_API_ID;
     const api_key = process.env.REACT_APP_FLIGHT_API_KEY;
+    console.log(api_id);
+    console.log(api_key);
     fetch(`https://api.flightstats.com/flex/schedules/rest/v1/json/flight/${values.airline}/${values.flightNumber}/departing/${formattedDate}?appId=${api_id}&appKey=${api_key}`)
       .then(res => res.json())
       .then(json => {
