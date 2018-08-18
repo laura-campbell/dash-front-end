@@ -6,8 +6,6 @@ import { Link } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import withAuth from '../hocs/withAuth';
-import moment from 'moment';
-
 
 class TripForm extends Component {
 
@@ -48,17 +46,14 @@ class TripForm extends Component {
 
   onSubmit = (values) => {
     const tripValues = {user_id: this.props.currentUser.id, name: values.name, start_date: this.state.startDate.toLocaleString(), end_date: this.state.endDate.toLocaleString()};
-    console.log(tripValues);
-    console.log(this.props);
     this.props.createTrip(tripValues, this.props.history)}
 
   render() {
-    console.log(this.props)
     const { handleSubmit } = this.props;
 
     return(
       <div>
-        <div className="ui right floated left labeled button" tabindex="0">
+        <div className="ui right floated left labeled button" tabIndex="0">
         <label className="ui basic right pointing label">
           <i className="user icon"></i> {this.props.currentUser.username}
         </label>
@@ -70,7 +65,7 @@ class TripForm extends Component {
             </div>
           </div>
 
-      <div class ="ui teal ribbon label"><h2>New Trip:</h2></div><br></br><br></br>
+      <div className ="ui teal ribbon label"><h2>New Trip:</h2></div><br></br><br></br>
       <form className="ui form" onSubmit={  handleSubmit(this.onSubmit.bind(this)) } >
 
         <Field

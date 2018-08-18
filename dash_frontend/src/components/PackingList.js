@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { deleteItem, fetchPackingList, createListItem } from '../actions/tripActions';
-import { Button, Segment, Checkbox } from 'semantic-ui-react';
+import { Button, Segment } from 'semantic-ui-react';
 import Items from './Items'
 
 
@@ -30,31 +30,27 @@ class PackingList extends React.Component {
     this.setState({
       [event.target.name]: event.target.value
         })
-      console.log(this.state)}
+      }
 
       onSubmit = (e) => {
-        console.log(this.state);
         e.preventDefault();
         this.props.createListItem({trip_id: this.state.trip_id, name: this.state.name});
       }
 
       deleteItem = (event, data) => {
-        console.log(data.id);
         this.props.deleteItem(this.props.id, data.id);
       }
 
 
   render() {
-    console.log(this.props)
     return (<div className="ui grid">
       {(!this.props.packinglist) ? null :
       (<div className="six wide column">
         <Segment color='olive'>
        {this.props.packinglist.map(item => {
-         return (<div>
-           <Button icon onClick={this.deleteItem} id={item.packing_list.id} label={item.packing_list.name} icon='check icon' >
+         return (<div key={item.packing_list.id}>
+           <Button onClick={this.deleteItem} id={item.packing_list.id} label={item.packing_list.name} icon='check' >
              </Button>
-
          <br></br>
          </div>
        )

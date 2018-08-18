@@ -7,22 +7,12 @@ import FlightDetails from './Flightdetails';
 import PackingList from './PackingList';
 import moment from 'moment';
 import Itinerary from './Itinerary';
-import Links from './Links'
-
 
 class TripDetails extends React.Component {
 
   componentDidMount() {
     this.props.selectTrip(this.props.match.params.tripId);
-    console.log(this.props);
   }
-  // componentDidMount() {
-  //   let length = moment(Date.parse(this.props.active_trip.trip.end_date)).diff(moment(Date.parse(this.props.active_trip.trip.start_date)), 'days');
-  //   let day = moment(this.props.active_trip.trip.start_date.toLocaleString()).subtract(1, 'days');
-  //   for (let i = 0; i < length+1; i++) {
-  //   let newday = day.add(1, 'days');
-  //   this.props.createDay({trip_id: this.props.active_trip.trip.id, daystring: newday.format('dddd MMM DD').toString()})}
-  // }
 
   render() {
 
@@ -75,10 +65,6 @@ class TripDetails extends React.Component {
       );
     }
   }
-// const mapStateToProps = state =>
-//   ({
-//     trip: state.active_trip
-//   });
 
 const mapStateToProps = state => ({
   active_trip: state.trips.active_trip,
@@ -89,18 +75,3 @@ const mapDispatchToProps = dispatch => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TripDetails);
-
-
-
-// <h3 className="ui horizontal divider header">
-//   <i className="linkify icon"></i>
-//   Websites
-// </h3>
-// <Links />
-
-
-          // 
-          // <h3 className="ui horizontal divider header">
-          //   <i className="camera retro icon"></i>
-          //   Photos
-          // </h3>

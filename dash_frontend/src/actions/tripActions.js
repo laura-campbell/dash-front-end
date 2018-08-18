@@ -1,6 +1,5 @@
 
 export const fetchTrips = (id) => dispatch => {
-    console.log(id)
     fetch(`http://localhost:3000/api/v1/users/${id}/trips`)
     .then(res => res.json())
     .then(trips => dispatch({
@@ -76,7 +75,6 @@ export const createListItem = (itemData) => dispatch => {
       }
 
   export const createFlight = (flightInfo, history) => dispatch => {
-      console.log(flightInfo)
       fetch(`http://localhost:3000/api/v1/flights`, {
         method: 'POST',
         headers: {
@@ -136,11 +134,10 @@ export const createDay = (info) => dispatch => {
       .then(day => dispatch({
         type: 'ADD_DAY',
         payload: day
-      })).then(day => console.log(day))
+      }))
       }
 
 export const selectDay = (id) => dispatch => {
-    console.log(id);
     fetch(`http://localhost:3000/api/v1/days/${id}`)
     .then(res => res.json())
     .then(day => dispatch({
@@ -150,7 +147,6 @@ export const selectDay = (id) => dispatch => {
   }
 
 export const fetchDays = (id) => dispatch => {
-    console.log(id);
     fetch(`http://localhost:3000/api/v1/trips/${id}/days`)
     .then(res => res.json())
     .then(days => dispatch({
@@ -176,7 +172,6 @@ export const fetchDays = (id) => dispatch => {
         }
 
   export const fetchEvents = (id) => dispatch => {
-      console.log(id);
       fetch(`http://localhost:3000/api/v1/days/${id}/events`)
       .then(res => res.json())
       .then(events => dispatch({

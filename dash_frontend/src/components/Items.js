@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { fetchPackingList, createListItem } from '../actions/tripActions';
-import { Icon, Button, Segment, Checkbox } from 'semantic-ui-react'
+import { Button } from 'semantic-ui-react'
 
 
 class Items extends React.Component {
@@ -59,16 +59,12 @@ class Items extends React.Component {
 
 
   render() {
-
-
-
-    console.log(this.props)
     return (
       <div className="six wide column">
           Common Items:
        {this.state.packinglist.map(item => {
-         return (<div>
-           <Button icon onClick={this.onChange} label={item} icon='plus icon' >
+         return (<div key={item}>
+           <Button onClick={this.onChange} label={item} icon='plus' >
              </Button>
          <br></br>
          </div>

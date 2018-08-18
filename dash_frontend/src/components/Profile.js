@@ -7,12 +7,11 @@ import { Redirect } from "react-router";
 class Profile extends React.Component {
 
 render() {
-  console.log(this.props.currentUser)
   return (
       <div>
       {this.props.currentUser.id ? (
         <div>
-          <div className="ui right floated left labeled button" tabindex="0">
+          <div className="ui right floated left labeled button" tabIndex="0">
           <label className="ui basic right pointing label">
             <i className="user icon"></i> {this.props.currentUser.username}
           </label>

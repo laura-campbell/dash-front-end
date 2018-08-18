@@ -40,10 +40,7 @@ class Signup extends Component {
 
   onSubmit = (values) => {
     const userValues = {user: {first_name: values.first_name, last_name: values.last_name, username: values.username, email: values.email, password: values.password}};
-    console.log(userValues);
-    console.log(this.props);
     this.props.createUser(userValues, this.props.history);
-    console.log(this.props)
   }
 
   render() {
